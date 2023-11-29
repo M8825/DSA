@@ -9,7 +9,7 @@ int main(int argc, char **argv)
   nob_cmd_append(&cmd, "cc");
   nob_cmd_append(&cmd, "-Wall", "-Wextra", "-ggdb");
   nob_cmd_append(&cmd, "-o", "main");
-  nob_cmd_append(&cmd, "two_dimensional_array.c");
+  nob_cmd_append(&cmd, "array_adt/main.c");
   if (!nob_cmd_run_sync(cmd)) return 1;
 
   cmd.count = 0;
