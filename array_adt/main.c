@@ -118,6 +118,36 @@ int Max(struct Array arr) {
   return max;
 }
 
+int Sum(struct Array arr) {
+  int sum = arr.A[0];
+  int i;
+  for (i = 1; i < arr.length; i++) {
+    sum = sum + arr.A[i];
+  }
+
+  return sum;
+}
+
+int Average(struct Array arr) { return (float)Sum(arr) / arr.length; }
+
+void Swap(int *x, int *y) {
+  int temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
+void ReverseArr(struct Array *arr) {
+  int i, j;
+  i = 0;
+  j = arr->length - 1;
+
+  while (i < j) {
+    Swap(&arr->A[i], &arr->A[j]);
+    i++;
+    j--;
+  }
+}
+
 int main() {
   struct Array arr1 = {{2, 3, 4, 5, 6}, 10, 5};
 
@@ -129,7 +159,10 @@ int main() {
   /* printf("%d\n", BinarySearch(arr1, 5)); */
   /* printf("%d\n", RBinarySearch(arr1, 0, arr1.length, 5)); */
   /* printf("%d\n", Set(&arr1, 1, 12)); */
-  printf("%d\n", Max(arr1));
+  /* printf("%d\n", Max(arr1)); */
+  /* printf("%d\n", Sum(arr1)); */
+  /* printf("%d\n", Average(arr1)); */
+  ReverseArr(&arr1);
 
   Display(arr1);
   return 0;
