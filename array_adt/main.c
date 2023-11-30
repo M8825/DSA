@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 
 struct Array {
@@ -148,8 +149,61 @@ void ReverseArr(struct Array *arr) {
   }
 }
 
+void LeftShift(struct Array *arr) {
+  int i;
+  for (i = 1; i < arr->length; i++) {
+    arr->A[i - 1] = arr->A[i];
+  }
+
+  arr->length--;
+}
+
+void InsertInSortedArray(struct Array *arr, int key) {
+  int i;
+  i = arr->length - 1;
+
+  while (arr->A[i] > key) {
+    arr->A[i + 1] = arr->A[i];
+
+    i--;
+  }
+
+  arr->A[i + 1] = key;
+  arr->length++;
+}
+
+bool isSorted(struct Array arr) {
+
+  for (int i = 0; i < arr.length - 1; i++) {
+    if (arr.A[i] > arr.A[i + 1]) {
+      return -1;
+    }
+  }
+
+  return 1;
+}
+
+void ReArrange(struct Array *arr) {
+  int i, j;
+  i = 0;
+  j = arr->length - 1;
+
+  while (i < j) {
+    while (arr->A[i] < 0) {
+      i++;
+    }
+    while (arr->A[j] >= 0) {
+      j--;
+    }
+    if (i < j) {
+      Swap(&arr->A[i], &arr->A[j]);
+    }
+  }
+}
+
 int main() {
-  struct Array arr1 = {{2, 3, 4, 5, 6}, 10, 5};
+  /* struct Array arr1 = {{2, 3, 4, 5, 6}, 10, 5}; */
+  struct Array arr2 = {{-3, -1, 7, -2, 8, 15}, 10, 6};
 
   /* Append(&arr1,10); */
   /* Insert(&arr1,0,12); */
@@ -162,8 +216,12 @@ int main() {
   /* printf("%d\n", Max(arr1)); */
   /* printf("%d\n", Sum(arr1)); */
   /* printf("%d\n", Average(arr1)); */
-  ReverseArr(&arr1);
+  /* ReverseArr(&arr1); */
+  /* LeftShift(&arr1); */
+  /* InsertInSortedArray(&arr1, 6); */
+  /* printf("%d", isSorted(arr1)); */
+  ReArrange(&arr2);
 
-  Display(arr1);
+  Display(arr2);
   return 0;
 }
