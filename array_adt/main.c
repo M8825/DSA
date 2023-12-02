@@ -120,6 +120,18 @@ int Max(struct Array arr) {
   return max;
 }
 
+int Min(struct Array arr) {
+  int min = arr.A[0];
+
+  for (int i = 0; i < arr.length; i++) {
+    if (arr.A[i] < min) {
+      min = arr.A[i];
+    }
+  }
+
+  return min;
+}
+
 int Sum(struct Array arr) {
   int sum = arr.A[0];
   int i;
@@ -307,15 +319,88 @@ struct Array * Difference(struct Array arr1, struct Array arr2) {
   return arr3;
 }
 
-int main() {
-  struct Array arr1 = {{2, 9, 21, 28, 35}, 10, 5};
-  struct Array arr2 = {{2, 9, 16, 28, 14}, 10, 5};
+void MissingElements(struct Array arr) {
+  int diff = arr.A[0];
+  for (int i = 1; i < arr.length; i++) {
+    if (arr.A[i] - i != diff) {
+      while (diff != arr.A[i] - i) {
+        printf("%d\n", diff + i);
+        diff++;
+      }
+    }
+  }
+}
 
-  struct Array *arr3;
+void FasterMissingElement(struct Array arr) {
+  int max = Max(arr);
+  int min = Min(arr);
+
+  int *hashTable = (int *)calloc(max + 1, sizeof(int));
+
+  for (int i = 0; i < arr.length; i++) {
+    hashTable[arr.A[i]]++;
+  }
+
+  for (int i = min; i < max; i++) {
+    if (hashTable[i] != 1) {
+      printf("%d ", i);
+    }
+  }
+
+  printf("\n");
+}
+
+
+void FindDuplicates(struct Array arr) {
+  int max = Max(arr);
+
+  int *hashTable = (int *)calloc(max + 1, sizeof(int));
+
+  for (int i = 0; i < arr.length; i++) {
+    hashTable[arr.A[i]]++;
+  }
+
+  for (int i = 0; i <= max; i++) {
+    if (hashTable[i] > 1) {
+      printf("%d is appearing %d times\n", i, hashTable[i]);
+    }
+  }
+}
+
+struct Array* SumOfK(struct Array arr, int key) {
+  struct Array* output = (struct Array *)malloc(sizeof(struct Array));
+  output->length = 0;
+  output->size = 2;
+
+  int max = Max(arr);
+  int *hashTable = (int * )calloc(max + 1, sizeof(int));
+
+  for (int i = 0; i < arr.length; i++) {
+    if (hashTable[key - arr.A[i]] > 0 ) {
+      int firstNum = hashTable[key - arr.A[i]];
+      int secondNum = arr.A[i];
+      output->A[0] = firstNum;
+      output->A[1] = secondNum;
+      output->length = 2;
+      break;
+    } else {
+      hashTable[arr.A[i]] = arr.A[i];
+    }
+  }
+
+  return output;
+}
+
+int main() {
+  /* struct Array arr1 = {{2, 9, 21, 28, 35}, 10, 5}; */
+  /* struct Array arr2 = {{2, 9, 16, 28, 14}, 10, 5}; */
+  /* struct Array arr = {{3, 6, 8, 8, 10, 12, 15, 15, 20, 20}, 10, 10}; */
+
+  /* struct Array *arr3; */
   /* arr3 = Merging(arr1, arr2); */
   /* arr3 = Union(arr1, arr2); */
   /* arr3 = Intersection(arr1, arr2); */
-  arr3 = Difference(arr1, arr2);
+  /* arr3 = Difference(arr1, arr2); */
 
   /* Append(&arr1,10); */
   /* Insert(&arr1,0,12); */
@@ -334,7 +419,13 @@ int main() {
   /* printf("%d", isSorted(arr1)); */
   /* ReArrange(&arr2); */
   /* Merging(arr1, arr2); */
+  /* MissingSingleElement(arr); */
+  /* FasterMissingElement(arr); */
+  /* FindDuplicates(arr); */
 
-  Display(*arr3);
+  struct Array *res;
+  struct Array arr = {{3, 1, 2, 7, 9}, 10, 5};
+  res = SumOfK(arr, 5);
+  Display(*res);
   return 0;
 }
