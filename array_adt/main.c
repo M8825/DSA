@@ -387,6 +387,24 @@ void SumOfK(struct Array arr, int key) {
   free(hashTable);
 }
 
+void SumOfKInSorted(struct Array arr, int k) {
+  int i, j;
+  i = 0;
+  j = arr.length - 1;
+
+  while (i < j) {
+    if (arr.A[i] + arr.A[j] < k) {
+      i++;
+    } else if (arr.A[i] + arr.A[j] > k) {
+      j--;
+    } else {
+      printf("Pairs that make K are %d and %d\n", arr.A[i], arr.A[j]);
+      i++;
+      j--;
+    }
+  }
+}
+
 int main() {
   /* struct Array arr1 = {{2, 9, 21, 28, 35}, 10, 5}; */
   /* struct Array arr2 = {{2, 9, 16, 28, 14}, 10, 5}; */
@@ -420,9 +438,9 @@ int main() {
   /* FindDuplicates(arr); */
 
   /* struct Array *res; */
-  struct Array arr = {{3, 1, 2, 5, 0}, 10, 5};
+  struct Array arr = {{1, 2, 3, 4, 6}, 10, 5};
   /* res = SumOfK(arr, 5); */
-  SumOfK(arr, 5);
+  SumOfKInSorted(arr, 5);
   Display(arr);
   return 0;
 }
