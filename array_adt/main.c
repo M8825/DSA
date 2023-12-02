@@ -367,28 +367,24 @@ void FindDuplicates(struct Array arr) {
   }
 }
 
-struct Array* SumOfK(struct Array arr, int key) {
-  struct Array* output = (struct Array *)malloc(sizeof(struct Array));
-  output->length = 0;
-  output->size = 2;
-
+void SumOfK(struct Array arr, int key) {
   int max = Max(arr);
-  int *hashTable = (int * )calloc(max + 1, sizeof(int));
+  int *hashTable = (int *)calloc(max + 1, sizeof(int));
 
   for (int i = 0; i < arr.length; i++) {
-    if (hashTable[key - arr.A[i]] > 0 ) {
-      int firstNum = hashTable[key - arr.A[i]];
-      int secondNum = arr.A[i];
-      output->A[0] = firstNum;
-      output->A[1] = secondNum;
-      output->length = 2;
-      break;
-    } else {
-      hashTable[arr.A[i]] = arr.A[i];
+    hashTable[arr.A[i]] = 1;
+  }
+
+  for (int i = 0; i < arr.length; i++) {
+    int complement = key - arr.A[i];
+    if (complement >= 0 && hashTable[complement]) {
+      printf("Found pairs: %d and %d\n", arr.A[i], complement);
+      hashTable[arr.A[i]] = 0;
+      hashTable[complement] = 0;
     }
   }
 
-  return output;
+  free(hashTable);
 }
 
 int main() {
@@ -423,9 +419,10 @@ int main() {
   /* FasterMissingElement(arr); */
   /* FindDuplicates(arr); */
 
-  struct Array *res;
-  struct Array arr = {{3, 1, 2, 7, 9}, 10, 5};
-  res = SumOfK(arr, 5);
-  Display(*res);
+  /* struct Array *res; */
+  struct Array arr = {{3, 1, 2, 5, 0}, 10, 5};
+  /* res = SumOfK(arr, 5); */
+  SumOfK(arr, 5);
+  Display(arr);
   return 0;
 }
