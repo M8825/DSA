@@ -1,17 +1,36 @@
 #include <stdio.h>
 
-int main () {
-  char A[] = "wElCome";
+int isVowel(char ch) {
+  char vowels[] = "aeiouAEIOU";
 
-  for (int i = 0; A[i] != '\0'; i++) {
-    if (A[i] >= 65 && A[i] <= 90) {
-      A[i] += 32;
-    } else if (A[i] >= 97 && A[i] <= 122){
-      A[i] -= 32;
+  for (int i = 0; vowels[i] != '\0'; i++) {
+    if (ch == vowels[i]) {
+      return 1;
     }
   }
 
-  printf("%s", A);
+  return -1;
+}
+
+void CountVandC(char str[]) {
+  int vcount, ccount;
+  vcount = ccount = 0;
+
+  for (int i = 0; str[i] != '\0'; i++) {
+    if (isVowel(str[i]) == 1){
+      vcount++;
+    } else if ((str[i] >= 65 && str[i] <= 90) || (str[i] >= 97 && str[i] <= 122)) {
+      ccount++;
+    }
+  }
+
+  printf("Number of vowels: %d \n", vcount);
+  printf("Number of consonants: %d \n", ccount);
+}
+
+int main () {
+  char str[] = "How are you";
+  CountVandC(str);
 
   return 0;
 }
