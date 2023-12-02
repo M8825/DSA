@@ -440,7 +440,7 @@ int main() {
   /* struct Array *res; */
   struct Array arr = {{1, 2, 3, 4, 6}, 10, 5};
   /* res = SumOfK(arr, 5); */
-  SumOfKInSorted(arr, 5);
+  SumOfKInSortd(arr, 5);
   Display(arr);
   return 0;
 }
