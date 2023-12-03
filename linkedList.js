@@ -82,8 +82,84 @@ class LinkedList {
     let next_node = node.next;
     this.displayRecursiveDisplay(next_node);
   }
-}
 
+  countNodes() {
+    if (!this.head) {
+      return 0;
+    }
+
+    let count = 0;
+    let curr_node = this.head;
+    while (curr_node != null) {
+      count++;
+      curr_node = curr_node.next;
+    }
+
+    return count;
+  }
+
+  coundAllElements() {
+    if(!this.head) {
+      return 0;
+    }
+    let count = 0;
+    let curr_node = this.head;
+
+    while (curr_node.next) {
+      count += curr_node.value;
+      curr_node = curr_node.next;
+    }
+
+    return count;
+  }
+
+  maximumElement() {
+    if(!this.head) {
+      return null;
+    }
+
+    let curr_node = this.head;
+    let maxValue = this.head.value;
+
+    while(curr_node) {
+      if (maxValue < curr_node.value){
+        maxValue = curr_node.value;
+      }
+
+      curr_node = curr_node.next;
+    }
+
+    return maxValue;
+  }
+
+  search(value) {
+    if (!this.head) {
+      return null;
+    }
+
+    if (this.head.value === value) {
+      return true;
+    }
+
+    let curr_node = this.head.next;
+    let prev_node = this.head;
+
+    while (curr_node) {
+      if (curr_node.value === value) {
+        prev_node.next = curr_node.next;
+        curr_node.next = this.head;
+        this.head = curr_node;
+
+        return true;
+      }
+
+      prev_node = curr_node;
+      curr_node = prev_node.next;
+    }
+
+    return false;
+  }
+}
 
 function main() {
   const linkedList = new LinkedList();
@@ -93,8 +169,12 @@ function main() {
   }
 
   // linkedList.displayLikedList();
-  linkedList.displayRecursiveDisplay();
-
+  // linkedList.displayRecursiveDisplay();
+  // console.log(linkedList.countNodes());
+  // console.log(linkedList.coundAllElements());
+  // console.log(linkedList.maximumElement())
+  linkedList.search(9);
+  linkedList.displayLikedList();
 }
 
 main();
