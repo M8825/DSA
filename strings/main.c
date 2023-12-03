@@ -28,9 +28,26 @@ void CountVandC(char str[]) {
   printf("Number of consonants: %d \n", ccount);
 }
 
+void CountWords(char str[]) {
+  int words = 0;
+
+  for (int i = 0; str[i] != '\0'; i++) {
+    if (str[i] == ' ' && i != 0 && str[i - 1] != ' ') {
+      words++;
+    }
+  }
+
+  if (words > 0) {
+    words++;
+  }
+
+  printf("The number of words is string: %d\n", words);
+}
+
 int main () {
-  char str[] = "How are you";
+  char str[] = " How    are you";
   CountVandC(str);
+  CountWords(str);
 
   return 0;
 }
