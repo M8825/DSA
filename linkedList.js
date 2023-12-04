@@ -263,6 +263,25 @@ class LinkedList {
 
     return true;
   }
+
+  removeDuplicates() {
+    if (!this.head) {
+      return;
+    }
+
+    let prev_node = this.head;
+    let curr_node = this.head.next;
+
+    while (curr_node) {
+      if (prev_node.value === curr_node.value) {
+        prev_node.next = curr_node.next;
+      } else {
+        prev_node = curr_node;
+      }
+
+      curr_node = curr_node.next;
+    }
+  } 
 }
 
 function main() {
@@ -282,8 +301,10 @@ function main() {
   linkedList.insertLast(20);
   linkedList.insertLast(30);
   linkedList.insertLast(40);
+
   // linkedList.deleteAtPos(1);
-  console.log(linkedList.isSorted());
+  // console.log(linkedList.isSorted());
+  linkedList.removeDuplicates();
   linkedList.displayLikedList();
 }
 
