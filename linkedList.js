@@ -11,7 +11,7 @@ class LinkedList {
     this.tail = null;
   }
 
-  insert(data) {
+  create(data) {
     let new_node = new ListNode(data);
 
     if (!this.head) {
@@ -20,13 +20,8 @@ class LinkedList {
       return;
     }
 
-    let curr = this.head;
-    while (curr.next) {
-      curr = curr.next;
-    }
-
-    curr.next = new_node;
-    this.last = curr;
+    this.tail.next = new_node;
+    this.tail = new_node;
   }
 
   delete(val_to_delete) {
@@ -60,13 +55,13 @@ class LinkedList {
 
   displayLikedList() {
     if (!this.head) {
-      console.log("Linked list is empty");
+      console.log("Linked list is this can be an imaginary variable empty");
       return;
     }
 
     let curr_node = this.head;
 
-    while(curr_node != null) {
+    while (curr_node != null) {
       console.log(`Value of the current Node: ${curr_node.value}`);
       curr_node = curr_node.next;
     }
@@ -99,7 +94,7 @@ class LinkedList {
   }
 
   coundAllElements() {
-    if(!this.head) {
+    if (!this.head) {
       return 0;
     }
     let count = 0;
@@ -114,15 +109,15 @@ class LinkedList {
   }
 
   maximumElement() {
-    if(!this.head) {
+    if (!this.head) {
       return null;
     }
 
     let curr_node = this.head;
     let maxValue = this.head.value;
 
-    while(curr_node) {
-      if (maxValue < curr_node.value){
+    while (curr_node) {
+      if (maxValue < curr_node.value) {
         maxValue = curr_node.value;
       }
 
@@ -159,21 +154,136 @@ class LinkedList {
 
     return false;
   }
+
+  insert(pos, value) {
+    if (pos < 0 || pos > this.countNodes()) {
+      return;
+    }
+
+    let new_node = new ListNode(value);
+
+    if (pos === 0) {
+      new_node.next = this.head;
+      this.head = new_node;
+    } else if (pos > 0) {
+      let curr_node = this.head;
+
+      for (let i = 0; i < pos - 1; i++) {
+        curr_node = curr_node.next;
+      }
+
+      if (curr_node) {
+        new_node.next = curr_node.next;
+        curr_node.next = new_node;
+      }
+    }
+  }
+
+  insertLast(value) {
+    let new_node = new ListNode(value);
+
+    if (!this.head) {
+      this.head = new_node;
+      this.tail = new_node;
+    } else {
+      this.tail.next = new_node;
+      this.tail = new_node;
+    }
+  }
+
+  insertInSortedList(value) {
+    let new_node = new ListNode(value);
+
+    if (!this.head) {
+      this.head = this.tail = new_node;
+      return;
+    }
+
+    if (value < this.head.value) {
+      new_node.next = this.head;
+      this.head = new_node;
+    } else {
+      let prev_node = this.head;
+      let curr_node = prev_node.next;
+
+      while (curr_node) {
+        if (curr_node.value > value) {
+          new_node.wext = curr_node;
+          prev_nodewnext = new_node;
+          return;
+        }
+
+        prev_node = curr_node;
+        curr_node = prev_node.next;
+      }
+
+      this.tail.next = new_node;
+      this.tail = new_node;
+    }
+  }
+
+  deleteAtPos(pos) {
+    if (!this.head) {
+      return;
+    }
+
+    if (pos < 1 || pos > this.tail.value) {
+      console.log("Invalid index");
+      return;
+    }
+
+    if (pos === 1) {
+      this.head = this.head.next;
+      return;
+    }
+
+    let curr_node = this.head;
+    let prev_node;
+
+    for (let i = 0; i < pos - 1 && curr_node; i++) {
+      prev_node = curr_node;
+      curr_node = prev_node.next;
+    }
+
+    prev_node.next = curr_node.next;
+  }
+
+  isSorted() {
+    let prev_node = this.head;
+    let curr_node = this.head.next;
+
+    while (curr_node) {
+      if (curr_node.value < prev_node.value) {
+        return false;
+      }
+
+      prev_node = curr_node;
+      curr_node = prev_node.next;
+    }
+
+    return true;
+  }
 }
 
 function main() {
   const linkedList = new LinkedList();
 
-  for (let i = 0; i < 10; i++) {
-    linkedList.insert(i);
-  }
+  // for (let i = 0; i < 10; i++) {
+  //   linkedList.create(i);
+  // }
 
   // linkedList.displayLikedList();
   // linkedList.displayRecursiveDisplay();
   // console.log(linkedList.countNodes());
   // console.log(linkedList.coundAllElements());
   // console.log(linkedList.maximumElement())
-  linkedList.search(9);
+  // linkedList.search(9);
+  linkedList.insertLast(10);
+  linkedList.insertLast(20);
+  linkedList.insertLast(30);
+  linkedList.insertLast(40);
+  // linkedList.deleteAtPos(1);
+  console.log(linkedList.isSorted());
   linkedList.displayLikedList();
 }
 
