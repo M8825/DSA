@@ -282,14 +282,67 @@ class LinkedList {
       curr_node = curr_node.next;
     }
   } 
+
+  reverseElements() {
+    if (!this.head) {
+      return;
+    }
+
+    let curr_node = this.head;
+    let arr = [];
+
+    while (curr_node) {
+      arr.push(curr_node.value);
+
+      curr_node = curr_node.next;
+    }
+
+    curr_node = this.head; // start curr_node from the first element again
+    for (let i = arr.length - 1; i >= 0; i--) {
+      curr_node.value = arr[i];
+      curr_node = curr_node.next;
+    }
+  }
+
+  reverseLinks() {
+    if (!this.head || !this.head.next) {
+      return;
+    }
+
+    let prev, curr, next;
+
+    prev = curr = null;
+    next = this.head;
+
+    while (next) {
+      prev = curr;
+      curr = next;
+      next = next.next;
+
+
+      curr.next = prev;
+    }
+
+    this.tail = this.head;
+    this.head = curr;
+  }
+
+  reverseLinksRecursion(prev, curr = this.head) {
+    if (curr === null) {
+      this.tail = this.head;
+      this.head = prev;
+      return;
+    }
+
+    this.reverseLinksRecursion(curr, curr.next);
+    curr.next = prev;
+  }
 }
+
+
 
 function main() {
   const linkedList = new LinkedList();
-
-  // for (let i = 0; i < 10; i++) {
-  //   linkedList.create(i);
-  // }
 
   // linkedList.displayLikedList();
   // linkedList.displayRecursiveDisplay();
@@ -304,7 +357,10 @@ function main() {
 
   // linkedList.deleteAtPos(1);
   // console.log(linkedList.isSorted());
-  linkedList.removeDuplicates();
+  // linkedList.removeDuplicates();
+  // linkedList.displayLikedList();
+  // linkedList.reverseLinks();
+  linkedList.reverseLinksRecursion();
   linkedList.displayLikedList();
 }
 
