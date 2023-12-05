@@ -388,6 +388,23 @@ class LinkedList {
 
     return third;
   }
+
+  isLoop() {
+    let slow, fast;
+
+    slow = fast = this.head;
+
+    while (fast && fast.nexts) {
+      slow = slow.next;
+      fast = fast.next.next;
+
+      if (slow === fast) {
+        return false;
+      }
+    }
+
+    return false;
+  }
 }
 
 function main() {
@@ -416,6 +433,7 @@ function main() {
 
   // linkedList.reverseLinksRecursion();
   // linkedList.mergeTwoLinkedLists(linkedList, linkedList_two);
+  console.log(linkedList.isLoop());
   linkedList.displayLikedList();
 }
 
