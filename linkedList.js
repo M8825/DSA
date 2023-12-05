@@ -5,6 +5,7 @@ class ListNode {
   }
 }
 
+
 class LinkedList {
   constructor() {
     this.head = null;
@@ -485,6 +486,90 @@ class LinkedList {
       curr_node.next = new_node;
     }
   }
+
+  deleteFromCircular(pos) {
+    if (!this.head) {
+      return;
+    }
+
+    if (pos < 1 || pos > this.length()) {
+      console.log("Invalid index");
+      return;
+    }
+
+    if (pos === 1) {
+      let curr = this.head
+      do {
+        curr = curr.next;
+      } while (curr.next != this.head)
+
+      curr.next = this.head.next;
+      this.head.next = null;
+      this.head = curr.next;
+    } else {
+
+      let curr_node = this.head;
+
+      for (let i = 0; i < pos - 2; i++) {
+        curr_node = curr_node.next;
+      }
+
+      curr_node.next = curr_node.next.next
+    }
+  }
+}
+
+class DoublyListNode {
+  constructor(prev, value, next) {
+    this.prev = prev;
+    this.value = value;
+    this.next = next;
+  }
+}
+
+class DoublyLinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  create(arr){
+    let prev_node;
+    let value = arr[0];
+    let first_node = new DoublyListNode(null, value, null);
+    this.head = first_node;
+    prev_node = first_node;
+
+    for (let i = 1; i < arr.length; i++) {
+      let curr_node = new DoublyListNode(prev_node, arr[i], null);
+      prev_node.next = curr_node;
+      prev_node = curr_node;
+    }
+  }
+
+  display() {
+    let curr_node = this.head;
+
+    while (curr_node){
+      console.log(curr_node.value);
+      curr_node = curr_node.next
+    }
+  }
+
+  length() {
+    if (!this.head) {
+      return 0;
+    }
+
+    let length = 0;
+
+    let curr_node = this.head;
+    while (curr_node) {
+      length++;
+      curr_node = curr_node.next;
+    }
+
+    return length;
+  }
 }
 
 function main() {
@@ -514,11 +599,17 @@ function main() {
   // linkedList.reverseLinksRecursion();
   // linkedList.mergeTwoLinkedLists(linkedList, linkedList_two);
   // console.log(linkedList.isLoop());
-  const circularLinkedList = new LinkedList();
-  circularLinkedList.createCircular([20, 30, 40, 50]);
-  circularLinkedList.insertInCircular(77, 2);
-  circularLinkedList.displayLoop();
+
+  // const circularLinkedList = new LinkedList();
+  // circularLinkedList.createCircular([20, 30, 40, 50]);
+  // circularLinkedList.insertInCircular(77, 2);
+  // circularLinkedList.deleteFromCircular(0);
+  // circularLinkedList.displayLoop();
   // linkedList.displayLikedList();
+
+  let doublyLinkeList = new DoublyLinkedList();
+  doublyLinkeList.create([10, 20, 30, 40, 50]);
+  doublyLinkeList.display();
 }
 
 main();
