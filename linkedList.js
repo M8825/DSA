@@ -11,6 +11,14 @@ class LinkedList {
     this.tail = null;
   }
 
+  getHead() {
+    return this.head;
+  }
+
+  getTail() {
+    return this.tail;
+  }
+
   create(data) {
     let new_node = new ListNode(data);
 
@@ -310,15 +318,13 @@ class LinkedList {
     }
 
     let prev, curr, next;
-
     prev = curr = null;
     next = this.head;
 
-    while (next) {
+    while (next != null) {
       prev = curr;
       curr = next;
       next = next.next;
-
 
       curr.next = prev;
     }
@@ -337,12 +343,64 @@ class LinkedList {
     this.reverseLinksRecursion(curr, curr.next);
     curr.next = prev;
   }
+
+  mergeTwoLinkedLists(list_one, list_two) {
+    let last, third, first, second;
+
+    first = list_one.getHead();
+    second = list_two.getHead();
+
+    if (!first){
+      return second;
+    } else if (!second) {
+      return first;
+    }
+
+    if (first.value < second.value) {
+      third = last = first;
+      first = first.next;
+      last.next = null;
+    } else {
+      third = last = second;
+      second = second.next;
+      last.next = null;
+    }
+
+    while (first && second) {
+      if (first.value < second.value) {
+        last.next = first;
+        last = first;
+        first = first.next;
+        last.next = null;
+      } else {
+        last.next = second;
+        last = second;
+        second = second.next;
+        last.next = null;
+      }
+    }
+
+    if (first) {
+      last.next = first;
+    } else {
+      last.nexst = second;
+    }
+
+    return third;
+  }
 }
-
-
 
 function main() {
   const linkedList = new LinkedList();
+  const linkedList_two = new LinkedList();
+  linkedList.insertLast(10);
+  linkedList.insertLast(20);
+  linkedList.insertLast(30);
+  linkedList.insertLast(40);
+  linkedList_two.insertLast(13);
+  linkedList_two.insertLast(25);
+  linkedList_two.insertLast(28);
+  linkedList_two.insertLast(37);
 
   // linkedList.displayLikedList();
   // linkedList.displayRecursiveDisplay();
@@ -350,17 +408,14 @@ function main() {
   // console.log(linkedList.coundAllElements());
   // console.log(linkedList.maximumElement())
   // linkedList.search(9);
-  linkedList.insertLast(10);
-  linkedList.insertLast(20);
-  linkedList.insertLast(30);
-  linkedList.insertLast(40);
-
   // linkedList.deleteAtPos(1);
   // console.log(linkedList.isSorted());
   // linkedList.removeDuplicates();
   // linkedList.displayLikedList();
   // linkedList.reverseLinks();
-  linkedList.reverseLinksRecursion();
+
+  // linkedList.reverseLinksRecursion();
+  // linkedList.mergeTwoLinkedLists(linkedList, linkedList_two);
   linkedList.displayLikedList();
 }
 
