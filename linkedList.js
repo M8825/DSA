@@ -434,6 +434,57 @@ class LinkedList {
 
     last_node.next = this.head;
   }
+
+  length() {
+    if (!this.head) {
+      return 0;
+    }
+
+    let length = 0;
+    let curr_node = this.head;
+
+    do {
+      curr_node = curr_node.next;
+      length++;
+    } while (curr_node.next != this.head)
+
+    return length;
+  }
+
+  insertInCircular(value, pos) {
+    let new_node = new ListNode(value);
+
+    if (pos < 0 || pos > this.length()) {
+      return;
+    }
+
+    if (!this.head) {
+      this.head = new_node;
+      this.head.next = new_node;
+      return;
+    }
+
+    if (pos === 0) {
+      new_node.next = this.head;
+      let curr_node = this.head
+
+      do {
+        curr_node = curr_node.next;
+      } while ( curr_node.next != this.head)
+
+      curr_node.next = new_node;
+
+    } else {
+      let curr_node = this.head;
+
+      for (let i = 0; i < pos - 1; i++) {
+        curr_node = curr_node.next;
+      }
+
+      new_node.next = curr_node.next;
+      curr_node.next = new_node;
+    }
+  }
 }
 
 function main() {
@@ -465,6 +516,7 @@ function main() {
   // console.log(linkedList.isLoop());
   const circularLinkedList = new LinkedList();
   circularLinkedList.createCircular([20, 30, 40, 50]);
+  circularLinkedList.insertInCircular(77, 2);
   circularLinkedList.displayLoop();
   // linkedList.displayLikedList();
 }
