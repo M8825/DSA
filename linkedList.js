@@ -642,6 +642,27 @@ class DoublyLinkedList {
       }
     }
   }
+
+  reverseDoublyLinkedList() {
+    if (!this.head) {
+      return;
+    }
+
+    let curr = this.head;
+
+    while (curr) {
+      // Swap the next and prev pointers
+      let temp_next = curr.next;
+      curr.next = curr.prev;
+      curr.prev = temp_next;
+
+      curr = curr.prev;
+
+      if (curr && !curr.next) {
+        this.head = curr;
+      }
+    }
+  }
 }
 
 function main() {
@@ -682,7 +703,8 @@ function main() {
   let doublyLinkeList = new DoublyLinkedList();
   doublyLinkeList.create([10, 20, 30, 40, 50]);
   // doublyLinkeList.insert(2, 777);
-  doublyLinkeList.delete(5);
+  // doublyLinkeList.delete(5);
+  doublyLinkeList.reverseDoublyLinkedList();
   doublyLinkeList.display();
 }
 
