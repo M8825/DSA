@@ -774,6 +774,17 @@ class DoublyLinkedList {
     }
   }
 
+  reachMiddleNode() {
+    let length = this.lengthCircular();
+
+    let curr = this.head;
+    for (let i = 0; i < Math.floor(length / 2); i++) {
+      curr = curr.next;
+    }
+
+    console.log(`Middle node value: ${curr.value}`);
+  }
+
 }
 
 function main() {
@@ -812,13 +823,14 @@ function main() {
   // linkedList.displayLikedList();
 
   let doublyLinkeList = new DoublyLinkedList();
+  doublyLinkeList.createCircular([10, 20, 30, 40, 50, 60]);
   // doublyLinkeList.create([10, 20, 30, 40, 50]);
   // doublyLinkeList.insert(2, 777);
   // doublyLinkeList.delete(5);
   // doublyLinkeList.reverseDoublyLinkedList();
-  doublyLinkeList.createCircular([10, 20, 30, 40, 50]);
-  // doublyLinkeList.insertCircular(1, 777)
-  doublyLinkeList.deleteCircluar(-1);
+  // doublyLinkeList.insertCircular(1, 777);
+  // doublyLinkeList.deleteCircluar(-1);
+  doublyLinkeList.reachMiddleNode();
   doublyLinkeList.displayCircular();
   // doublyLinkeList.display();
 }
