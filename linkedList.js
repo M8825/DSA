@@ -578,11 +578,11 @@ class DoublyLinkedList {
     }
 
     if (!this.head) {
-      new DoublyListNode(null, value, null);
+      this.head  = new DoublyListNode(null, value, null);
       return;
     }
 
-    // before first node
+    // insert before first node
     if (pos === 1){
       let new_node = new DoublyListNode(null, value, this.head);
       this.head.prev = new_node;
@@ -602,7 +602,10 @@ class DoublyLinkedList {
       new_node.next = curr_node.next;
       new_node.prev = curr_node;
       curr_node.next = new_node;
-      new_node.next.prev = new_node;
+
+      if (new_node.next) {
+        new_node.next.prev = new_node;
+      }     
     }
   }
 }
