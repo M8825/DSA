@@ -636,6 +636,32 @@ class DoublyLinkedList {
 
   }
 
+  deleteCircluar(pos) {
+    if(!this.head) {
+      return;
+    }
+
+    if (pos < 1 || pos > this.lengthCircular()) {
+      console.log("Invalid position");
+      return;
+    }
+
+    let curr = this.head;
+    for (let i = 0; i < pos - 1; i++) {
+      curr = curr.next;
+    }
+
+    curr.prev.next = curr.next;
+    curr.next.prev =  curr.prev;
+
+    if (curr === this.head) {
+      this.head = curr.next;
+    }
+
+    curr.next = null;
+    curr.prev = null;
+  }
+
   length() {
     if (!this.head) {
       return 0;
@@ -791,7 +817,8 @@ function main() {
   // doublyLinkeList.delete(5);
   // doublyLinkeList.reverseDoublyLinkedList();
   doublyLinkeList.createCircular([10, 20, 30, 40, 50]);
-  doublyLinkeList.insertCircular(1, 777)
+  // doublyLinkeList.insertCircular(1, 777)
+  doublyLinkeList.deleteCircluar(-1);
   doublyLinkeList.displayCircular();
   // doublyLinkeList.display();
 }
