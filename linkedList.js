@@ -543,6 +543,37 @@ class DoublyLinkedList {
     }
   }
 
+  createCircular(arr) {
+    let first_value = arr[0];
+    let curr = new DoublyListNode(null, first_value, null);
+    this.head = curr;
+
+    for (let i = 1; i < arr.length; i++) {
+      let next = new DoublyListNode(null, arr[i], null);
+      curr.next = next;
+      next.prev = curr;
+      curr = next;
+    }
+
+    curr.next = this.head;
+    this.head.prev = curr;
+  }
+
+  displayCircular() {
+    if (!this.head) {
+      return;
+    }
+
+    // curr = start from head. 
+    // traverse linked list with do {} while (this.head)
+    let curr = this.head;
+
+    do {
+      console.log(`Value: ${curr.value}`);
+      curr = curr.next;
+    } while (curr != this.head);
+  }
+
   display() {
     let curr_node = this.head;
 
@@ -550,6 +581,59 @@ class DoublyLinkedList {
       console.log(curr_node.value);
       curr_node = curr_node.next;
     }
+  }
+
+  lengthCircular() {
+    if(!this.head){
+      return 0;
+    }
+
+    let count = 0;
+    let curr = this.head;
+
+    do {
+      count++;
+      curr = curr.next;
+    } while (curr != this.head);
+
+    return count;
+  }
+
+  insertCircular(pos, value) {
+    if (!this.head) {
+      let new_node = new DoublyListNode(null, value, null);
+      this.head = new_node;
+      return;
+    }
+
+    if (pos < 0 || pos > this.lengthCircular()){
+      console.log("Invalid index");
+      return;
+    }
+
+    // 1. insert before head
+    if (pos === 0) {
+      let new_node = new DoublyListNode(null, value, null);
+      let temp_prev = this.head.prev;
+      new_node.next = this.head;
+      this.head.prev = new_node;
+      temp_prev.next = new_node;
+      new_node.prev = temp_prev;
+    } else {
+      // 2. insert at pos
+      let curr = this.head;
+      for (let i = 0; i < pos - 1; i++) {
+        curr = curr.next;
+      }
+
+      let new_node = new DoublyListNode(null, value, null);
+
+      new_node.next = curr.next;
+      new_node.prev = curr;
+      curr.next.prev = new_node;
+      curr.next = new_node;
+    }
+
   }
 
   length() {
@@ -612,13 +696,13 @@ class DoublyLinkedList {
       return;
     }
 
-    if (pos < 1 || pos > this.length()) {
+    if (pos < 0 || pos > this.length()) {
       console.log("Invalid position");
       return;
     }
 
     // 1. delete first node :: null <- this.head
-    if (pos === 1) {
+    if (pos === 0) {
       this.head = this.head.next;
       this.head.prev = null;
     } else {
@@ -663,6 +747,7 @@ class DoublyLinkedList {
       }
     }
   }
+
 }
 
 function main() {
@@ -701,11 +786,14 @@ function main() {
   // linkedList.displayLikedList();
 
   let doublyLinkeList = new DoublyLinkedList();
-  doublyLinkeList.create([10, 20, 30, 40, 50]);
+  // doublyLinkeList.create([10, 20, 30, 40, 50]);
   // doublyLinkeList.insert(2, 777);
   // doublyLinkeList.delete(5);
-  doublyLinkeList.reverseDoublyLinkedList();
-  doublyLinkeList.display();
+  // doublyLinkeList.reverseDoublyLinkedList();
+  doublyLinkeList.createCircular([10, 20, 30, 40, 50]);
+  doublyLinkeList.insertCircular(1, 777)
+  doublyLinkeList.displayCircular();
+  // doublyLinkeList.display();
 }
 
 main();
