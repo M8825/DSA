@@ -5,7 +5,6 @@ class ListNode {
   }
 }
 
-
 class LinkedList {
   constructor() {
     this.head = null;
@@ -447,7 +446,7 @@ class LinkedList {
     do {
       curr_node = curr_node.next;
       length++;
-    } while (curr_node.next != this.head)
+    } while (curr_node.next != this.head);
 
     return length;
   }
@@ -467,14 +466,13 @@ class LinkedList {
 
     if (pos === 0) {
       new_node.next = this.head;
-      let curr_node = this.head
+      let curr_node = this.head;
 
       do {
         curr_node = curr_node.next;
-      } while ( curr_node.next != this.head)
+      } while (curr_node.next != this.head);
 
       curr_node.next = new_node;
-
     } else {
       let curr_node = this.head;
 
@@ -498,23 +496,22 @@ class LinkedList {
     }
 
     if (pos === 1) {
-      let curr = this.head
+      let curr = this.head;
       do {
         curr = curr.next;
-      } while (curr.next != this.head)
+      } while (curr.next != this.head);
 
       curr.next = this.head.next;
       this.head.next = null;
       this.head = curr.next;
     } else {
-
       let curr_node = this.head;
 
       for (let i = 0; i < pos - 2; i++) {
         curr_node = curr_node.next;
       }
 
-      curr_node.next = curr_node.next.next
+      curr_node.next = curr_node.next.next;
     }
   }
 }
@@ -532,7 +529,7 @@ class DoublyLinkedList {
     this.head = null;
   }
 
-  create(arr){
+  create(arr) {
     let prev_node;
     let value = arr[0];
     let first_node = new DoublyListNode(null, value, null);
@@ -549,9 +546,9 @@ class DoublyLinkedList {
   display() {
     let curr_node = this.head;
 
-    while (curr_node){
+    while (curr_node) {
       console.log(curr_node.value);
-      curr_node = curr_node.next
+      curr_node = curr_node.next;
     }
   }
 
@@ -578,16 +575,17 @@ class DoublyLinkedList {
     }
 
     if (!this.head) {
-      this.head  = new DoublyListNode(null, value, null);
+      this.head = new DoublyListNode(null, value, null);
       return;
     }
 
     // insert before first node
-    if (pos === 1){
+    if (pos === 1) {
       let new_node = new DoublyListNode(null, value, this.head);
       this.head.prev = new_node;
       this.head = new_node;
-    } else { // any given position
+    } else {
+      // any given position
       let new_node = new DoublyListNode(null, value, null);
 
       // curr_node -> <- new_node -> <- next_node (curr_node.next)
@@ -605,7 +603,43 @@ class DoublyLinkedList {
 
       if (new_node.next) {
         new_node.next.prev = new_node;
-      }     
+      }
+    }
+  }
+
+  delete(pos) {
+    if (!this.head) {
+      return;
+    }
+
+    if (pos < 1 || pos > this.length()) {
+      console.log("Invalid position");
+      return;
+    }
+
+    // 1. delete first node :: null <- this.head
+    if (pos === 1) {
+      this.head = this.head.next;
+      this.head.prev = null;
+    } else {
+      // 2. delete any given node
+      let prev, curr, next;
+      curr = this.head;
+      next = this.head.next;
+
+      for (let i = 0; i < pos - 1; i++) {
+        prev = curr;
+        curr = next;
+        next = next.next;
+      }
+
+      prev.next = next;
+      curr.next = null;
+      curr.prev = null;
+
+      if (next) {
+        next.prev = prev;
+      }
     }
   }
 }
@@ -647,7 +681,8 @@ function main() {
 
   let doublyLinkeList = new DoublyLinkedList();
   doublyLinkeList.create([10, 20, 30, 40, 50]);
-  doublyLinkeList.insert(2, 777);
+  // doublyLinkeList.insert(2, 777);
+  doublyLinkeList.delete(5);
   doublyLinkeList.display();
 }
 
