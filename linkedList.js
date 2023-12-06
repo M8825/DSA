@@ -570,6 +570,41 @@ class DoublyLinkedList {
 
     return length;
   }
+
+  insert(pos, value) {
+    if (pos < 1 || pos > this.length()) {
+      console.log("Invalid index");
+      return;
+    }
+
+    if (!this.head) {
+      new DoublyListNode(null, value, null);
+      return;
+    }
+
+    // before first node
+    if (pos === 1){
+      let new_node = new DoublyListNode(null, value, this.head);
+      this.head.prev = new_node;
+      this.head = new_node;
+    } else { // any given position
+      let new_node = new DoublyListNode(null, value, null);
+
+      // curr_node -> <- new_node -> <- next_node (curr_node.next)
+      let curr_node = this.head;
+
+      for (let i = 0; i < pos - 1; i++) {
+        curr_node = curr_node.next;
+      }
+
+      // curr_node                .next
+      //         -><-new_node -><-
+      new_node.next = curr_node.next;
+      new_node.prev = curr_node;
+      curr_node.next = new_node;
+      new_node.next.prev = new_node;
+    }
+  }
 }
 
 function main() {
@@ -609,6 +644,7 @@ function main() {
 
   let doublyLinkeList = new DoublyLinkedList();
   doublyLinkeList.create([10, 20, 30, 40, 50]);
+  doublyLinkeList.insert(2, 777);
   doublyLinkeList.display();
 }
 
