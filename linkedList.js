@@ -1,4 +1,4 @@
-class ListNode {
+class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
@@ -19,8 +19,19 @@ class LinkedList {
     return this.tail;
   }
 
+  insertOtherLinkedList(linkedList) {
+    this.tail.next = linkedList;
+
+    let curr = linkedList;
+    while (curr.next) {
+      curr = curr.next;
+    }
+
+    this.tail = curr;
+  }
+
   create(data) {
-    let new_node = new ListNode(data);
+    let new_node = new Node(data);
 
     if (!this.head) {
       this.head = new_node;
@@ -168,7 +179,7 @@ class LinkedList {
       return;
     }
 
-    let new_node = new ListNode(value);
+    let new_node = new Node(value);
 
     if (pos === 0) {
       new_node.next = this.head;
@@ -188,7 +199,7 @@ class LinkedList {
   }
 
   insertLast(value) {
-    let new_node = new ListNode(value);
+    let new_node = new Node(value);
 
     if (!this.head) {
       this.head = new_node;
@@ -200,7 +211,7 @@ class LinkedList {
   }
 
   insertInSortedList(value) {
-    let new_node = new ListNode(value);
+    let new_node = new Node(value);
 
     if (!this.head) {
       this.head = this.tail = new_node;
@@ -421,12 +432,12 @@ class LinkedList {
 
   createCircular(arr) {
     let first_value = arr[0];
-    let last_node = new ListNode(first_value);
+    let last_node = new Node(first_value);
     this.head = last_node;
 
     for (let i = 1; i < arr.length; i++) {
       let value = arr[i];
-      let new_node = new ListNode(value);
+      let new_node = new Node(value);
 
       last_node.next = new_node;
       last_node = new_node;
@@ -452,7 +463,7 @@ class LinkedList {
   }
 
   insertInCircular(value, pos) {
-    let new_node = new ListNode(value);
+    let new_node = new Node(value);
 
     if (pos < 0 || pos > this.length()) {
       return;
@@ -514,6 +525,34 @@ class LinkedList {
       curr_node.next = curr_node.next.next;
     }
   }
+
+  createSingleWithFirst(first_node, arr) {
+    this.head = first_node;
+    let curr = first_node;
+
+    for (let i = 0; i < arr.length; i++) {
+      let value = arr[i];
+
+      let next = new Node(value);
+
+      curr.next = next;
+      curr = next;
+    }
+
+    this.tail = curr;
+  }
+}
+
+function getNode(linkedList, pos) {
+  let curr = linkedList.getHead();
+
+  // [] [] [] => 3 - 2
+  for (let i = 0; i < pos - 1; i++) {
+    curr = curr.next;
+  }
+
+  debugger
+  return curr;
 }
 
 class DoublyListNode {
@@ -564,7 +603,7 @@ class DoublyLinkedList {
       return;
     }
 
-    // curr = start from head. 
+    // curr = start from head.
     // traverse linked list with do {} while (this.head)
     let curr = this.head;
 
@@ -584,7 +623,7 @@ class DoublyLinkedList {
   }
 
   lengthCircular() {
-    if(!this.head){
+    if (!this.head) {
       return 0;
     }
 
@@ -606,7 +645,7 @@ class DoublyLinkedList {
       return;
     }
 
-    if (pos < 0 || pos > this.lengthCircular()){
+    if (pos < 0 || pos > this.lengthCircular()) {
       console.log("Invalid index");
       return;
     }
@@ -633,11 +672,10 @@ class DoublyLinkedList {
       curr.next.prev = new_node;
       curr.next = new_node;
     }
-
   }
 
   deleteCircluar(pos) {
-    if(!this.head) {
+    if (!this.head) {
       return;
     }
 
@@ -652,7 +690,7 @@ class DoublyLinkedList {
     }
 
     curr.prev.next = curr.next;
-    curr.next.prev =  curr.prev;
+    curr.next.prev = curr.prev;
 
     if (curr === this.head) {
       this.head = curr.next;
@@ -784,7 +822,40 @@ class DoublyLinkedList {
 
     console.log(`Middle node value: ${curr.value}`);
   }
+}
 
+function findIntersection(list_one, list_two) {
+  const stack_one = [];
+  const stack_two = [];
+
+  let node_one = list_one.getHead();
+  let node_two = list_two.getHead();
+
+  while (node_one.next) {
+    stack_one.push(node_one);
+    node_one = node_one.next
+  }
+
+  while (node_two.next) {
+    stack_two.push(node_two);
+    node_two = node_two.next
+  }
+
+  let stack_one_pop = null;
+  let stack_two_pop = null;
+
+  while(stack_one.length > 0 || stack_two.length > 0) {
+    let temp_one_pop = stack_one.pop();
+    let temp_two_pop = stack_two.pop();
+
+    if (temp_one_pop != temp_two_pop) {
+      console.log(`Intersection node value: ${stack_one_pop.value}`);
+      return;
+    }
+
+    stack_one_pop = temp_one_pop;
+    stack_two_pop = temp_two_pop;
+  }
 }
 
 function main() {
@@ -822,17 +893,34 @@ function main() {
   // circularLinkedList.displayLoop();
   // linkedList.displayLikedList();
 
-  let doublyLinkeList = new DoublyLinkedList();
-  doublyLinkeList.createCircular([10, 20, 30, 40, 50, 60]);
+  // let doublyLinkeList = new DoublyLinkedList();
+  // doublyLinkeList.createCircular([10, 20, 30, 40, 50, 60]);
   // doublyLinkeList.create([10, 20, 30, 40, 50]);
   // doublyLinkeList.insert(2, 777);
   // doublyLinkeList.delete(5);
   // doublyLinkeList.reverseDoublyLinkedList();
   // doublyLinkeList.insertCircular(1, 777);
   // doublyLinkeList.deleteCircluar(-1);
-  doublyLinkeList.reachMiddleNode();
-  doublyLinkeList.displayCircular();
+  // doublyLinkeList.reachMiddleNode();
+  // doublyLinkeList.displayCircular();
   // doublyLinkeList.display();
+
+  const first_node = new Node(5);
+  let linkedList = new LinkedList();
+  linkedList.createSingleWithFirst(first_node, [10, 20, 30, 40]);
+
+  let node = getNode(linkedList, 4);
+  let linkedListTwo = new LinkedList();
+  linkedListTwo.insertLast(1);
+  linkedListTwo.insertLast(2);
+  linkedListTwo.insertLast(3);
+  linkedListTwo.insertOtherLinkedList(node);
+
+  findIntersection(linkedList, linkedListTwo);
+  console.log("=======");
+  linkedListTwo.displayLikedList();
+  console.log("==============")
+  linkedList.displayLikedList();
 }
 
 main();
