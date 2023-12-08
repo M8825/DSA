@@ -546,12 +546,10 @@ class LinkedList {
 function getNode(linkedList, pos) {
   let curr = linkedList.getHead();
 
-  // [] [] [] => 3 - 2
   for (let i = 0; i < pos - 1; i++) {
     curr = curr.next;
   }
 
-  debugger
   return curr;
 }
 
@@ -831,12 +829,12 @@ function findIntersection(list_one, list_two) {
   let node_one = list_one.getHead();
   let node_two = list_two.getHead();
 
-  while (node_one.next) {
+  while (node_one) {
     stack_one.push(node_one);
     node_one = node_one.next
   }
 
-  while (node_two.next) {
+  while (node_two) {
     stack_two.push(node_two);
     node_two = node_two.next
   }
@@ -848,7 +846,7 @@ function findIntersection(list_one, list_two) {
     let temp_one_pop = stack_one.pop();
     let temp_two_pop = stack_two.pop();
 
-    if (temp_one_pop != temp_two_pop) {
+    if (temp_one_pop !== temp_two_pop) {
       console.log(`Intersection node value: ${stack_one_pop.value}`);
       return;
     }
@@ -917,6 +915,7 @@ function main() {
   linkedListTwo.insertOtherLinkedList(node);
 
   findIntersection(linkedList, linkedListTwo);
+
   console.log("=======");
   linkedListTwo.displayLikedList();
   console.log("==============")
