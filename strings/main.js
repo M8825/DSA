@@ -105,3 +105,60 @@ function anagrams(str1, str2) {
 console.log("");
 console.log("Anagrams: ");
 console.log(anagrams("decimal", "medical"));
+
+
+function stringPermutation(str, k, arr = [], res = [], output = []) {
+  if (str.length === k) {
+    console.log(res)
+  } else {
+    for (let i = 0; i < str.length; i++) {
+      if (arr[i] === undefined) {
+        res[k] = str[i];
+        arr[i] = 1;
+        stringPermutation(str, k + 1, arr, res, output);
+        arr[i] = undefined;
+      }
+    }
+  }
+}
+
+console.log("Permutations:");
+stringPermutation(['a', 'b', 'c'], 0);
+
+
+function twoSum(nums) {
+  for (let i = 0; i < nums.length - 1; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+      return [i, j];
+    }
+  }
+}
+
+
+function maxArea(height) {
+  let max = 0; // Initialize max area
+  let left = 0; // Start with the leftmost line
+  let right = height.length - 1; // Start with the rightmost line
+
+  while (left < right) {
+      // Calculate the area with the current pair of lines
+      let width = right - left;
+      let currentHeight = Math.min(height[left], height[right]);
+      let currentArea = width * currentHeight;
+
+      // Update max area if the current area is larger
+      max = Math.max(max, currentArea);
+
+      // Move the pointer that points to the shorter line inward
+      if (height[left] < height[right]) {
+          left++;
+      } else {
+          right--;
+      }
+  }
+
+  return max;
+}
+
+let heights = [1,8,6,2,5,4,8,3,7];
+console.log(maxArea(heights)); // Should return the maximum area
