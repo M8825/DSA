@@ -73,3 +73,35 @@ function findDuplicateChar(str) {
 console.log("")
 console.log("Counting Letters: ");
 console.log(findDuplicateChar("finding"));
+
+function anagrams(str1, str2) {
+  if (str1.length != str2.length) {
+    return false;
+  }
+
+  const counter = {};
+
+  // iterate over str1 and increase count for each letter by 1
+  for (let i = 0; i < str1.length; i++) {
+    if (counter[str1[i]]) {
+      counter[str1[i]]++;
+    } else {
+      counter[str1[i]] = 1;
+    }
+  }
+
+  // iterate over str2 and decrement count for each letter by 1
+  for (let i = 0; i < str1.length; i++) {
+    if (counter[str2[i]]) {
+      counter[str2[i]]--;
+    } else {
+      counter[str2[i]] = -1;
+    }
+  }
+
+  return !Object.values(counter).some(ele => ele != 0);
+}
+
+console.log("");
+console.log("Anagrams: ");
+console.log(anagrams("decimal", "medical"));
