@@ -902,7 +902,6 @@ function main() {
   // doublyLinkeList.reachMiddleNode();
   // doublyLinkeList.displayCircular();
   // doublyLinkeList.display();
-
   const first_node = new Node(5);
   let linkedList = new LinkedList();
   linkedList.createSingleWithFirst(first_node, [10, 20, 30, 40]);
@@ -912,7 +911,7 @@ function main() {
   linkedListTwo.insertLast(1);
   linkedListTwo.insertLast(2);
   linkedListTwo.insertLast(3);
-  linkedListTwo.insertOtherLinkedList(node);
+    linkedListTwo.(node);
 
   findIntersection(linkedList, linkedListTwo);
 
