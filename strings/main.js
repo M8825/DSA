@@ -23,7 +23,6 @@ function countSentences() {
 
 console.log(countSentences());
 
-
 function reverseString(input) {
   let reversedStr = '';
 
@@ -38,13 +37,12 @@ console.log("")
 console.log("Reverse string: ");
 console.log(reverseString("FooBar"));
 
-
 console.log("")
 console.log("Reverse string: ");
 console.log(reverseString("FooBar"));
 
 function palidrome(str1) {
-  let reversedStr = ''
+  let reversedStr = '';
 
   for (let i = str1.length - 1; i >= 0; i--) {
     reversedStr += str1[i];
@@ -56,3 +54,22 @@ function palidrome(str1) {
 console.log("")
 console.log("Palindrome: ");
 console.log(palidrome("radar"));
+
+
+function findDuplicateChar(str) {
+  const counter = {};
+
+  for (let i = 0; i < str.length; i++) {
+    if (counter[str[i]]){
+      counter[str[i]]++;
+    } else {
+      counter[str[i]] = 1;
+    }
+  }
+
+  return Object.keys(counter).filter(key => counter[key] > 1);
+};
+
+console.log("")
+console.log("Counting Letters: ");
+console.log(findDuplicateChar("finding"));
