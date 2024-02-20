@@ -162,3 +162,39 @@ function maxArea(height) {
 
 let heights = [1,8,6,2,5,4,8,3,7];
 console.log(maxArea(heights)); // Should return the maximum area
+
+function intToRoman(num) {
+  // Define the Roman numerals for the base numbers.
+  const numerals = [
+      ["M", 1000],
+      ["CM", 900],
+      ["D", 500],
+      ["CD", 400],
+      ["C", 100],
+      ["XC", 90],
+      ["L", 50],
+      ["XL", 40],
+      ["X", 10],
+      ["IX", 9],
+      ["V", 5],
+      ["IV", 4],
+      ["I", 1]
+  ];
+
+  let result = "";
+
+  // Loop through each numeral, subtracting it from num and adding it to the result string.
+  for (const [roman, value] of numerals) {
+      while (num >= value) {
+          result += roman;
+          num -= value;
+      }
+  }
+
+  return result;
+}
+
+// Example usage:
+console.log(intToRoman(3));    // Output: "III"
+console.log(intToRoman(58));   // Output: "LVIII"
+console.log(intToRoman(1994)); // Output: "MCMXCIV"
