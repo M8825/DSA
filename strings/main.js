@@ -238,3 +238,52 @@ function findMin(nums) {
 console.log(findMin([3,4,5,1,2])); // Output: 1
 console.log(findMin([4,5,6,7,0,1,2])); // Output: 0
 console.log(findMin([1])); // Output: 1
+
+
+function findMedianSortedArrays(nums1, nums2) {
+  // Make sure nums1 is the smaller array
+  if (nums1.length > nums2.length) {
+      [nums1, nums2] = [nums2, nums1];
+  }
+
+  let x = nums1.length;
+  let y = nums2.length;
+  let low = 0;
+  let high = x;
+
+  while (low <= high) {
+      const partitionX = Math.floor((low + high) / 2);
+      const partitionY = Math.floor((x + y + 1) / 2) - partitionX;
+
+      const maxX = partitionX === 0 ? Number.NEGATIVE_INFINITY : nums1[partitionX - 1];
+      const maxY = partitionY === 0 ? Number.NEGATIVE_INFINITY : nums2[partitionY - 1];
+
+      const minX = partitionX === x ? Number.POSITIVE_INFINITY : nums1[partitionX];
+      const minY = partitionY === y ? Number.POSITIVE_INFINITY : nums2[partitionY];
+
+      if (maxX <= minY && maxY <= minX) {
+          // We have partitioned array at the correct place
+          if ((x + y) % 2 === 0) {
+              return (Math.max(maxX, maxY) + Math.min(minX, minY)) / 2;
+          } else {
+              return Math.max(maxX, maxY);
+          }
+      } else if (maxX > minY) { // we are too far on right side for partitionX. Go on left side.
+          high = partitionX - 1;
+      } else { // we are too far on left side for partitionX. Go on right side.
+          low = partitionX + 1;
+      }
+  }
+
+  // If we reach here, it means the arrays are not sorted or not of the expected size
+  throw new Error("Input arrays are not sorted or of different size than expected");
+}
+
+// Example usage:
+const nums1 = [1, 3];
+const nums2 = [2];
+console.log(findMedianSortedArrays(nums1, nums2)); // Output: 2
+
+const nums1b = [1, 2];
+const nums2b = [3, 4];
+console.log(findMedianSortedArrays(nums1b, nums2b)); // Output: 2.5
