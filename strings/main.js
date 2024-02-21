@@ -287,3 +287,42 @@ console.log(findMedianSortedArrays(nums1, nums2)); // Output: 2
 const nums1b = [1, 2];
 const nums2b = [3, 4];
 console.log(findMedianSortedArrays(nums1b, nums2b)); // Output: 2.5
+
+function search(nums, target) {
+  let start = 0;
+  let end = nums.length - 1;
+
+  while (start <= end) {
+      let mid = Math.floor((start + end) / 2);
+      if (nums[mid] === target) return mid;
+
+      // Check if the left half is sorted
+      if (nums[start] <= nums[mid]) {
+          if (target >= nums[start] && target < nums[mid]) {
+              // Target is in the left half
+              end = mid - 1;
+          } else {
+              // Target is in the right half
+              start = mid + 1;
+          }
+      }
+      // Otherwise, the right half is sorted
+      else {
+          if (target > nums[mid] && target <= nums[end]) {
+              // Target is in the right half
+              start = mid + 1;
+          } else {
+              // Target is in the left half
+              end = mid - 1;
+          }
+      }
+  }
+
+  return -1; // If the target is not found
+}
+
+// Example usage:
+let nums = [4,5,6,7,0,1,2];
+console.log(search(nums, 0)); // Output: 4
+console.log(search(nums, 3)); // Output: -1
+
