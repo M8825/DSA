@@ -104,4 +104,40 @@ console.log(uniquePaths(3, 7)); // Output: 28
 console.log(uniquePaths(3, 2)); // Output: 3
 
 
+function merge(intervals) {
+  if (intervals.length <= 1) {
+    return intervals;
+  }
+
+  // Sort the intervals by their start values
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const merged = [];
+  let currentInterval = intervals[0];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const [currentStart, currentEnd] = currentInterval;
+    const [nextStart, nextEnd] = intervals[i];
+
+    if (currentEnd >= nextStart) {
+      // Overlapping intervals, merge them
+      currentInterval = [currentStart, Math.max(currentEnd, nextEnd)];
+    } else {
+      // Non-overlapping interval, add the previous one and update current
+      merged.push(currentInterval);
+      currentInterval = intervals[i];
+    }
+  }
+
+  // Add the last interval
+  merged.push(currentInterval);
+
+  return merged;
+}
+
+// Example usage:
+console.log(merge([[1,3],[2,6],[8,10],[15,18]])); // Output: [[1,6],[8,10],[15,18]]
+console.log(merge([[1,4],[4,5]])); // Output: [[1,5]]
+
+
 
