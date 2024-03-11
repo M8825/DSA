@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/mlkz/Documents/code/personal/data_structure_and_algos/matrices/sparseMatrix'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _create, symObjAddr: 0x0, symBinAddr: 0x100003C60, symSize: 0x138 }
+  - { offsetInCU: 0x7A, offset: 0x7A, size: 0x8, addend: 0x0, symName: _create, symObjAddr: 0x0, symBinAddr: 0x100003C60, symSize: 0x138 }
+  - { offsetInCU: 0xBA, offset: 0xBA, size: 0x8, addend: 0x0, symName: _display, symObjAddr: 0x138, symBinAddr: 0x100003D98, symSize: 0x150 }
+  - { offsetInCU: 0x109, offset: 0x109, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x288, symBinAddr: 0x100003EE8, symSize: 0x48 }
+...
