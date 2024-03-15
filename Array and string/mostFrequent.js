@@ -23,3 +23,16 @@ const mostFrequentChar = (s) => {
 
 console.log("foobar");
 console.log(mostFrequentChar('foo'));
+
+const intersection = (a, b) => {
+  let output = [];
+  let setA = new Set(a);
+
+  for (let item of b) {
+    if (setA.has(item)) {
+      output.push(item);
+    }
+  }
+
+  return output;
+};
