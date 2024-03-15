@@ -36,3 +36,22 @@ const intersection = (a, b) => {
 
   return output;
 };
+
+function fiveSort(nums) {
+  let i = 0;
+  let j = nums.length - 1;
+
+  while (i < j) {
+    if (nums[j] === 5) {
+      j--;
+      continue;
+    }
+
+    if (nums[i] === 5) {
+      [nums[i], nums[j]] = [nums[j], nums[i]];
+    }
+    i++;
+  }
+
+  return nums;
+}
