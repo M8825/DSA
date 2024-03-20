@@ -1,3 +1,11 @@
+class Node {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
 // const pathFinder = (root, target) => {
 //   if (root === null) return null;
 //   if (root.val === target) return [ root.val ];
@@ -120,7 +128,55 @@
 
 // bottomRightValue(a); // -> 1
 
-const treeLevels = (root) => {
+// const treeLevels = (root) => {
+//   if (root === null) return [];
+
+//   let queue = [ { node: root, nodeLevel: 0 } ];
+//   let levels = [];
+
+//   while (queue.length > 0) {
+//     let { node, nodeLevel } = queue.shift();
+
+//     if (levels.length === nodeLevel) {
+//       levels.push([node.val]);
+//     } else {
+//       levels[nodeLevel].push(node.val);
+//     }
+
+//     if (node.left === null) queue.push( { node: node.left, nodeLevel: nodeLevel + 1});
+//     if (node.right === null) queue.push( { node: node.right, nodeLevel: nodeLevel + 1});
+//   }
+
+//   return levels;
+// };
+
+// const a = new Node("a");
+// const b = new Node("b");
+// const c = new Node("c");
+// const d = new Node("d");
+// const e = new Node("e");
+// const f = new Node("f");
+
+// a.left = b;
+// a.right = c;
+// b.left = d;
+// b.right = e;
+// c.right = f;
+
+// //      a
+// //    /   \
+// //   b     c
+// //  / \     \
+// // d   e     f
+
+// treeLevels(a); // ->
+// // [
+// //   ['a'],
+// //   ['b', 'c'],
+// //   ['d', 'e', 'f']
+// // ]
+
+const levelAverages = (root) => {
   if (root === null) return [];
 
   let queue = [ { node: root, nodeLevel: 0 } ];
@@ -135,19 +191,32 @@ const treeLevels = (root) => {
       levels[nodeLevel].push(node.val);
     }
 
-    if (node.left === null) queue.push( { node: node.left, nodeLevel: nodeLevel + 1});
-    if (node.right === null) queue.push( { node: node.right, nodeLevel: nodeLevel + 1});
+    if (node.left !== null) {
+      queue.push({ node: node.left, nodeLevel: nodeLevel + 1 });
+    }
+
+    if (node.right !== null) {
+      queue.push({ node: node.right, nodeLevel: nodeLevel + 1 });
+    }
   }
 
-  return levels;
+  let levelsAvg = [];
+
+  for (let i = 0; i < levels.length; i++) {
+    const levelElements = levels[i];
+    let levelAvg = levelElements.reduce((acc, ele) => acc + ele, 0) / levelElements.length;
+    levelsAvg.push(levelAvg);
+  }
+
+  return levelsAvg;
 };
 
-const a = new Node("a");
-const b = new Node("b");
-const c = new Node("c");
-const d = new Node("d");
-const e = new Node("e");
-const f = new Node("f");
+const a = new Node(3);
+const b = new Node(11);
+const c = new Node(4);
+const d = new Node(4);
+const e = new Node(-2);
+const f = new Node(1);
 
 a.left = b;
 a.right = c;
@@ -155,15 +224,11 @@ b.left = d;
 b.right = e;
 c.right = f;
 
-//      a
-//    /   \
-//   b     c
-//  / \     \
-// d   e     f
+//       3
+//    /    \
+//   11     4
+//  / \      \
+// 4   -2     1
 
-treeLevels(a); // ->
-// [
-//   ['a'],
-//   ['b', 'c'],
-//   ['d', 'e', 'f']
-// ]
+console.log(levelAverages(a)); // -> [ 3, 7.5, 1 ]
+
