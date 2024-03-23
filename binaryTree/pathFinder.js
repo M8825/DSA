@@ -174,49 +174,81 @@ class Node {
 // //   ['a'],
 // //   ['b', 'c'],
 // //   ['d', 'e', 'f']
-// // ]
 
-const levelAverages = (root) => {
-  if (root === null) return [];
+//   if (root === null) return [];
 
-  let queue = [ { node: root, nodeLevel: 0 } ];
-  let levels = [];
+//   let queue = [ { node: root, nodeLevel: 0 } ];
+//   let levels = [];
 
-  while (queue.length > 0) {
-    let { node, nodeLevel } = queue.shift();
+//   while (queue.length > 0) {
+//     let { node, nodeLevel } = queue.shift();
 
-    if (levels.length === nodeLevel) {
-      levels.push([node.val]);
-    } else {
-      levels[nodeLevel].push(node.val);
-    }
+//     if (levels.length === nodeLevel) {
+//       levels.push([node.val]);
+//     } else {
+//       levels[nodeLevel].push(node.val);
+//     }
 
-    if (node.left !== null) {
-      queue.push({ node: node.left, nodeLevel: nodeLevel + 1 });
-    }
+//     if (node.left !== null) {
+//       queue.push({ node: node.left, nodeLevel: nodeLevel + 1 });
+//     }
 
-    if (node.right !== null) {
-      queue.push({ node: node.right, nodeLevel: nodeLevel + 1 });
-    }
-  }
+//     if (node.right !== null) {
+//       queue.push({ node: node.right, nodeLevel: nodeLevel + 1 });
+//     }
+//   }
 
-  let levelsAvg = [];
+//   let levelsAvg = [];
 
-  for (let i = 0; i < levels.length; i++) {
-    const levelElements = levels[i];
-    let levelAvg = levelElements.reduce((acc, ele) => acc + ele, 0) / levelElements.length;
-    levelsAvg.push(levelAvg);
-  }
+//   for (let i = 0; i < levels.length; i++) {
+//     const levelElements = levels[i];
+//     let levelAvg = levelElements.reduce((acc, ele) => acc + ele, 0) / levelElements.length;
+//     levelsAvg.push(levelAvg);
+//   }
 
-  return levelsAvg;
+//   return levelsAvg;
+// };
+
+// const a = new Node(3);
+// const b = new Node(11);
+// const c = new Node(4);
+// const d = new Node(4);
+// const e = new Node(-2);
+// const f = new Node(1);
+
+// a.left = b;
+// a.right = c;
+// b.left = d;
+// b.right = e;
+// c.right = f;
+
+// //       3
+// //    /    \
+// //   11     4
+// //  / \      \
+// // 4   -2     1
+
+// console.log(levelAverages(a)); // -> [ 3, 7.5, 1 ]
+
+const leafList = (root) => {
+  const leaves = [];
+  fillLeaves(root, leaves);
+  return leaves;
 };
 
-const a = new Node(3);
-const b = new Node(11);
-const c = new Node(4);
-const d = new Node(4);
-const e = new Node(-2);
-const f = new Node(1);
+function fillLeaves(root, leaves) {
+  if (root === null) return null;
+  if (root.left === null && root.right === null) leaves.push(root.val);
+  fillLeaves(root.left, leaves);
+  fillLeaves(root.right, leaves);
+}
+
+const a = new Node("a");
+const b = new Node("b");
+const c = new Node("c");
+const d = new Node("d");
+const e = new Node("e");
+const f = new Node("f");
 
 a.left = b;
 a.right = c;
@@ -224,11 +256,10 @@ b.left = d;
 b.right = e;
 c.right = f;
 
-//       3
-//    /    \
-//   11     4
-//  / \      \
-// 4   -2     1
+//      a
+//    /   \
+//   b     c
+//  / \     \
+// d   e     f
 
-console.log(levelAverages(a)); // -> [ 3, 7.5, 1 ]
-
+console.log(leafList(a)); // -> [ 'd', 'e', 'f' ]
