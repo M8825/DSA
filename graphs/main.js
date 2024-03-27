@@ -21,50 +21,59 @@
 
 // console.log(hasPath(graph, 'f', 'k')); // true
 
-const islandCount = (grid) => {
-  const visited = new Set();
-  let count = 0;
+const semestersRequired = (numCourses, prereqs) => {
+  const graph = buildGrap(numCourses, prereqs);
+  const distance = {};
 
-  for (let r = 0; r < grid.length; r++) {
-    for (let c = 0; c < grid[0].length; c++) {
-      if (explore(grid, r, c, visited) === true) {
-        count++;
-      }
-    }
+  for (let course in graph) {
+    if (graph[course].length === 0) distance[course] = 1;
   }
-  return count;
+
+  for (let node in graph) {
+    traverseGraph(graph, node, distance);
+  }
+
+  return Math.max(...Object.values(distance));
 };
 
-function explore(grid, r, c, visited) {
-  const rowInbound = 0 <= r && r < grid.length;
-  const colInbound = 0 <= c && c < grid[0].length;
-  if (!rowInbound || !colInbound) return false;
+function traverseGraph(graph, node, distance) {
+  if (node in distance) return distance[node];
 
-  if (grid[r][c] === 'W') return false;
+  let maxDistance = 0;
+  for (let neighbor of graph[node]) {
+    const attempt = traverseGraph(graph, neighbor, distance);
+    if (attempt > maxDistance) maxDistance = attempt;
+  }
 
-  const pos = r + ',' + c;
-  if (visited.has(pos)) return false;
-  visited.add(pos);
+  distance[node] = maxDistance + 1;
+  return distance[node];
+}
 
-  explore(grid, r - 1, c, visited);
-  explore(grid, r + 1, c, visited);
-  explore(grid, r, c - 1, visited);
-  explore(grid, r, c + 1, visited);
 
-  return true;
+function buildGrap(numCourses, prereqs) {
+  const graph = {};
+
+  for (let i = 0; i < numCourses; i++) {
+    graph[i] = [];
+  }
+
+  for (let prereq of prereqs) {
+    const [a, b] = prereq;
+    graph[a].push(b);
+  }
+
+  return graph;
 }
 
 module.exports = {
-  islandCount,
+  semestersRequired,
 };
 
-const grid = [
-  ['W', 'L', 'W', 'W', 'W'],
-  ['W', 'L', 'W', 'W', 'W'],
-  ['W', 'W', 'W', 'L', 'W'],
-  ['W', 'W', 'L', 'L', 'W'],
-  ['L', 'W', 'W', 'L', 'L'],
-  ['L', 'L', 'W', 'W', 'W'],
+const numCourses = 6;
+const prereqs = [
+  [1, 2],
+  [2, 4],
+  [3, 5],
+  [0, 5],
 ];
-
-console.log(islandCount(grid)); // -> 3
+console.log(semestersRequired(numCourses, prereqs));
