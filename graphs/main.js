@@ -21,59 +21,72 @@
 
 // console.log(hasPath(graph, 'f', 'k')); // true
 
-const semestersRequired = (numCourses, prereqs) => {
-  const graph = buildGrap(numCourses, prereqs);
-  const distance = {};
+const bestBridge = (grid) => {
+  let mainInsland;
 
-  for (let course in graph) {
-    if (graph[course].length === 0) distance[course] = 1;
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[0].length; col++) {
+      const possibleIsland = traverseIsland(grid, row, col, new Set());
+      if (possibleIsland.size > 0) {
+        mainInsland = possibleIsland;
+      }
+    }
   }
 
-  for (let node in graph) {
-    traverseGraph(graph, node, distance);
+  const visited = new Set(mainInsland);
+  const queue = [];
+  for (let pos of mainInsland) {
+    const [ row, col ] = pos.split(',').map(Number);
+    queue.push([row, col, 0]);
   }
 
-  return Math.max(...Object.values(distance));
+  while (queue.length) {
+    const [row, col, distance] = queue.shift();
+
+    const pos = row + ',' + col;
+    if (grid[row][col] === 'L' && !mainInsland.has(pos)) return distance - 1;
+
+    const deltas = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    for (let delta of deltas) {
+      const [ rowDelta, colDelta ] = delta;
+      const rowNeighbor = row + rowDelta;
+      const colNeighbor = col + colDelta;
+      const posNeighbor = rowNeighbor + ',' + colNeighbor;
+      if (isInbounds(grid, rowNeighbor, colNeighbor) && !visited.has(posNeighbor)) {
+        visited.add(posNeighbor);
+        queue.push([ rowNeighbor, colNeighbor, distance + 1]);
+      }
+    }
+  }
 };
 
-function traverseGraph(graph, node, distance) {
-  if (node in distance) return distance[node];
-
-  let maxDistance = 0;
-  for (let neighbor of graph[node]) {
-    const attempt = traverseGraph(graph, neighbor, distance);
-    if (attempt > maxDistance) maxDistance = attempt;
-  }
-
-  distance[node] = maxDistance + 1;
-  return distance[node];
+function isInbounds(grid, row, col) {
+  const rowInbound = 0 <= row && row < grid.length;
+  const colInbound = 0 <= col && col < grid[0].length;
+  return rowInbound && colInbound;
 }
 
+function traverseIsland(grid, row, col, visited) {
+  if (!isInbounds(grid, row, col) || grid[row][col] === 'W') return visited;
 
-function buildGrap(numCourses, prereqs) {
-  const graph = {};
+  const pos = row + ',' + col;
+  if (visited.has(pos)) return visited;
+  visited.add(pos);
 
-  for (let i = 0; i < numCourses; i++) {
-    graph[i] = [];
-  }
+  traverseIsland(grid, row - 1, col, visited);
+  traverseIsland(grid, row + 1, col, visited);
+  traverseIsland(grid, row, col - 1, visited);
+  traverseIsland(grid, row, col + 1, visited);
 
-  for (let prereq of prereqs) {
-    const [a, b] = prereq;
-    graph[a].push(b);
-  }
-
-  return graph;
+  return visited;
 }
 
-module.exports = {
-  semestersRequired,
-};
-
-const numCourses = 6;
-const prereqs = [
-  [1, 2],
-  [2, 4],
-  [3, 5],
-  [0, 5],
+const grid = [
+  ["W", "W", "W", "L", "L"],
+  ["L", "L", "W", "W", "L"],
+  ["L", "L", "L", "W", "L"],
+  ["W", "L", "W", "W", "W"],
+  ["W", "W", "W", "W", "W"],
+  ["W", "W", "W", "W", "W"],
 ];
-console.log(semestersRequired(numCourses, prereqs));
+bestBridge(grid); // -> 1
