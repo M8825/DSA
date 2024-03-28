@@ -14,6 +14,8 @@
 //   f: ['g', 'i'],
 //   g: ['h'],
 //   h: [],
+
+
 //   i: ['g', 'k'],
 //   j: ['i'],
 //   k: []
@@ -91,72 +93,85 @@
 // ];
 // bestBridge(grid); // -> 1
 
-const prereqsPossible = (numCourses, prereqs) => {
-  let graph = buildGraph(numCourses, prereqs);
-  const visiting = new Set();
-  const visited = new Set();
+// const prereqsPossible = (numCourses, prereqs) => {
+//   let graph = buildGraph(numCourses, prereqs);
+//   const visiting = new Set();
+//   const visited = new Set();
 
-  for (let node in graph) {
-    if(cycleDetect(graph, node, visiting, visited) === true){
-      return false;
-    }
-  }
+//   for (let node in graph) {
+//     if(cycleDetect(graph, node, visiting, visited) === true){
+//       return false;
+//     }
+//   }
 
-  return true;
+//   return true;
+// };
+
+// function cycleDetect(graph, node, visiting, visited) {
+//   if (visiting.has(node)) return true;
+//   visiting.add(node);
+
+//   for (let neighbor of graph[node]) {
+//     if (cycleDetect(graph, neighbor, visiting, visited) === true) {
+//       return true;
+//     }
+//   }
+
+//   visiting.delete(node);
+//   visited.add(node);
+
+//   return false;
+// }
+
+// function buildGraph(numCourses, prereqs) {
+//   const graph = {};
+
+//   for (let i = 0; i < numCourses; i++) {
+//     graph[i] = [];
+//   }
+
+//   for (let prereq of prereqs) {
+//     const [a, b] = prereq;
+//     graph[a].push(b);
+//   }
+
+
+//   return graph;
+// }
+
+// const numCourses = 6;
+// const prereqs = [
+//   [0, 1],
+//   [2, 3],
+//   [0, 2],
+//   [1, 3],
+//   [4, 5],
+// ];
+// prereqsPossible(numCourses, prereqs); // -> true
+
+
+
+
+// const foo = [
+//   [r + 2, c + 1],
+//   [r + 2, c - 1],
+//   [r + 1, c + 2],
+//   [r - 1, c + 2],
+//   [r - 2, c + 1],
+//   [r - 2, c - 1],
+//   [r + 1, c - 2],
+//   [r - 1, c - 2],
+// ]
+
+const tribonacci = (n, memo = {}) => {
+  if ( n === 1 || n === 0) return 0;
+  if (n === 2) return 1;
+
+  if (n in memo) return memo[n];
+
+  memo[n] = tribonacci(n - 1, memo) + tribonacci(n - 2, memo) + tribonacci(n - 3, memo);
+
+  return memo[n];
 };
 
-function cycleDetect(graph, node, visiting, visited) {
-  if (visiting.has(node)) return true;
-  visiting.add(node);
-
-  for (let neighbor of graph[node]) {
-    if (cycleDetect(graph, neighbor, visiting, visited) === true) {
-      return true;
-    }
-  }
-
-  visiting.delete(node);
-  visited.add(node);
-
-  return false;
-}
-
-function buildGraph(numCourses, prereqs) {
-  const graph = {};
-
-  for (let i = 0; i < numCourses; i++) {
-    graph[i] = [];
-  }
-
-  for (let prereq of prereqs) {
-    const [a, b] = prereq;
-    graph[a].push(b);
-  }
-
-
-  return graph;
-}
-
-const numCourses = 6;
-const prereqs = [
-  [0, 1],
-  [2, 3],
-  [0, 2],
-  [1, 3],
-  [4, 5],
-];
-prereqsPossible(numCourses, prereqs); // -> true
-
-
-
-
-const foo = [
-  [r + 2, c + 1],
-  [r + 2, c - 1],
-  [r + 1, c + 2],
-  [r - 1, c + 2],
-  [r - 2, c + 1],
-  [r - 2, c - 1],
-  [r + 1, c - 2],
-  [r - 1, c - 2],
-]
+tribonacci(0); // -> 0
