@@ -163,15 +163,35 @@
 //   [r - 1, c - 2],
 // ]
 
-const tribonacci = (n, memo = {}) => {
-  if ( n === 1 || n === 0) return 0;
-  if (n === 2) return 1;
+// const tribonacci = (n, memo = {}) => {
+//   if ( n === 1 || n === 0) return 0;
+//   if (n === 2) return 1;
 
-  if (n in memo) return memo[n];
+//   if (n in memo) return memo[n];
 
-  memo[n] = tribonacci(n - 1, memo) + tribonacci(n - 2, memo) + tribonacci(n - 3, memo);
+//   memo[n] = tribonacci(n - 1, memo) + tribonacci(n - 2, memo) + tribonacci(n - 3, memo);
 
-  return memo[n];
+//   return memo[n];
+// };
+
+// tribonacci(0); // -> 0
+
+const minChange = (amount, coins) => {
+  const result = _minChange(amount, coins);
+  return result === Infinity ? -1 : result;
 };
 
-tribonacci(0); // -> 0
+function _minChange(amount, coins, memo = {}) {
+  if (amount < 0) return Infinity;
+  if (amount === 0) return 0;
+  if (amount in memo) return memo[amount];
+
+
+  let minCoins = Infinity;
+  for (let coin of coins) {
+    const numCoins = 1 + _minChange(amount - coin, coins, memo);
+    minCoins = Math.min(minCoins, numCoins);
+  }
+  memo[amount] = minCoins;
+  return minCoins;
+}
