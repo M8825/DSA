@@ -205,3 +205,41 @@ const countPaths = (grid, r = 0, c = 0, memo = {}) => {
 
   return memo[pos] = countPaths(grid, r + 1, c, memo) + countPaths(grid, r, c + 1, memo);
 };
+
+/**
+ * Function to calculate the least intervals required to execute tasks.
+ * @param {character[]} tasks - Array of tasks represented by characters.
+ * @param {number} n - Cooldown interval for tasks.
+ * @returns {number} - The least number of intervals needed to finish all tasks.
+ */
+const leastInterval = function(tasks, n) {
+  // Array to store frequencies of each task
+  const freq = Array(26).fill(0);
+
+  // Count frequencies of each task
+  for (let task of tasks) {
+      freq[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;
+  }
+
+  // Sort frequencies in descending order
+  freq.sort((a, b) => b - a);
+
+  // Calculate the maximum number of chunks
+  const maxChunk = freq[0] - 1;
+
+  // Calculate total idle slots
+  let idleSlots = maxChunk * n;
+
+  // Distribute remaining tasks into idle slots
+  for (let i = 1; i < 26; i++) {
+      idleSlots -= Math.min(maxChunk, freq[i]);
+  }
+
+  // If idle slots are negative, no need for idle time
+  if (idleSlots < 0) {
+      return tasks.length;
+  } else {
+      // Return total tasks plus idle slots
+      return tasks.length + idleSlots;
+  }
+};
