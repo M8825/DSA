@@ -421,7 +421,6 @@ var dfs = function(s, adj, vis){
   return false;
 };
 var canFinish = function(num, pre) {
-  //Create adjacency list.
   const adj = [];
   for(let i = 0; i < num; ++i){
       adj[i] = [];
@@ -430,7 +429,6 @@ var canFinish = function(num, pre) {
       adj[pre[i][0]].push(pre[i][1]);
   }
 
-  //Check for loops.
   const vis = new Array(num).fill(0);
   for(let i = 0; i < num; ++i){
       if(vis[i] == 0){
