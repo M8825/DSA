@@ -401,3 +401,41 @@ var lastStoneWeight = function(stones) {
   }
   return stones[0] //return the 0 index value ie the resultl
 };
+
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
+
+var dfs = function(s, adj, vis){
+  vis[s] = 2;
+  for(let i = 0; i < adj[s].length; ++i){
+      if(vis[adj[s][i]] == 0){
+          if(dfs(adj[s][i], adj, vis))
+              return true;
+      }
+      else if(vis[adj[s][i]] == 2) return true;
+  }
+  vis[s] = 1;
+  return false;
+};
+var canFinish = function(num, pre) {
+  //Create adjacency list.
+  const adj = [];
+  for(let i = 0; i < num; ++i){
+      adj[i] = [];
+  }
+  for(let i = 0; i < pre.length; ++i){
+      adj[pre[i][0]].push(pre[i][1]);
+  }
+
+  //Check for loops.
+  const vis = new Array(num).fill(0);
+  for(let i = 0; i < num; ++i){
+      if(vis[i] == 0){
+          if(dfs(i,adj,vis)) return false;
+      }
+  }
+  return true;
+};
