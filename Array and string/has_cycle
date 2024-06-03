@@ -1,0 +1,26 @@
+def has_cycle(L: ListNode):
+    def cycle_len(end):
+        start, step = end, 0
+        while True:
+            step += 1
+            start = start.next
+            if start is end:
+                return step
+
+
+    fast = slow = L
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+
+        if slow is fast:
+            iter_cycle = L
+            for _ in range(cycle_len(slow)):
+                iter_cycle = iter_cycle.next
+
+            it = L
+            while it is not iter_cycle:
+                it, iter_cycle = it.next, iter_cycle.next
+
+            return it # the start of the cycle
+
+    return None # No cycle
