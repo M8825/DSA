@@ -34,3 +34,25 @@ const arr1 = [1, 3, 5];
 const arr2 = [2, 4, 6];
 const output = mergeSortedArrays(arr1, arr2);
 console.log(output); // Output: [1, 2, 3, 4, 5, 6]
+
+
+
+function longestWord(sentence) {
+  const words = sentence.split(' ');
+  let longest = '';
+
+  for (const word of words) {
+    // Remove punctuation from the word
+    const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '');
+    if (cleanWord.length > longest.length) {
+      longest = cleanWord;
+    }
+  }
+
+  return longest;
+}
+
+// Example usage:
+const sentence = 'The quick brown fox jumps over the lazy dog';
+const output = longestWord(sentence);
+console.log(output); // Output: "jumps"
