@@ -98,3 +98,24 @@ function productExceptSelf(nums) {
 
 // Example usage:
 console.log(productExceptSelf([1, 2, 3, 4]));  // Output: [24, 12, 8, 6]
+
+function findPeakElement(nums) {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (nums[mid] > nums[mid + 1]) {
+      right = mid;  // Move left to search for a peak
+    } else {
+      left = mid + 1;  // Move right to search for a peak
+    }
+  }
+
+  return left;
+}
+
+// Example usage:
+console.log(findPeakElement([1, 2, 3, 1]));  // Output: 2 (index of peak element 3)
+console.log(findPeakElement([1, 2, 1, 3, 5, 6, 4]));  // Output: 5 (index of peak element 6)
