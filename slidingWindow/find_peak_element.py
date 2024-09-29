@@ -7,6 +7,7 @@ class Solution:
             # Peak element is present in right side
             if mid < n-1 and nums[mid] < nums[mid+1]:
                 low = mid+1
+            # remember this part
             # Peak element is present in left side
             elif mid > 0 and nums[mid] < nums[mid-1]:
                 high = mid-1
