@@ -29,3 +29,23 @@ def productExceptSelf(nums: List[int]) -> List[int]:
         right_product *= nums[i]
 
     return answer
+
+
+def spiralOrder(matrix: List[List[int]]) -> List[int]:
+    result = []
+    while matrix:
+        # Add the first row
+        result += matrix.pop(0)
+        # Add the last column
+        if matrix and matrix[0]:
+            for row in matrix:
+                result.append(row.pop())
+        # Add the last row in reverse
+        if matrix:
+            result += matrix.pop()[::-1]
+        # Add the first column in reverse
+        if matrix and matrix[0]:
+            for row in matrix[::-1]:
+                result.append(row.pop(0))
+
+    return result
