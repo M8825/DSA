@@ -75,3 +75,15 @@ def rotate(matrix: List[List[int]]) -> None:
     # Reverse each row
     for i in range(n):
         matrix[i].reverse()
+
+
+from collections import defaultdict
+
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
+    anagrams = defaultdict(list)
+
+    for s in strs:
+        sorted_str = ''.join(sorted(s))
+        anagrams[sorted_str].append(s)
+
+    return list(anagrams.values())
