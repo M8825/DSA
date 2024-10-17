@@ -87,3 +87,27 @@ def groupAnagrams(strs: List[str]) -> List[List[str]]:
         anagrams[sorted_str].append(s)
 
     return list(anagrams.values())
+
+
+from collections import defaultdict, deque
+
+def canFinish(numCourses: int, prerequisites: List[List[int]]) -> bool:
+    indegree = [0] * numCourses
+    graph = defaultdict(list)
+
+    for course, prereq in prerequisites:
+        graph[prereq].append(course)
+        indegree[course] += 1
+
+    queue = deque([i for i in range(numCourses) if indegree[i] == 0])
+    count = 0
+
+    while queue:
+        course = queue.popleft()
+        count += 1
+        for neighbor in graph[course]:
+            indegree[neighbor] -= 1
+            if indegree[neighbor] == 0:
+                queue.append(neighbor)
+
+    return count == numCourses
