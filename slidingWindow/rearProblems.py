@@ -47,3 +47,25 @@ def maxAreaOfIsland(grid):
             if grid[i][j] == 1:
                 max_area = max(max_area, dfs(i, j))
     return max_area
+
+
+from collections import Counter, defaultdict
+
+def isPossible(nums):
+    freq = Counter(nums)
+    subsequences = defaultdict(int)
+
+    for num in nums:
+        if freq[num] == 0:
+            continue
+        elif subsequences[num - 1] > 0:
+            subsequences[num - 1] -= 1
+            subsequences[num] += 1
+        elif freq[num + 1] > 0 and freq[num + 2] > 0:
+            freq[num + 1] -= 1
+            freq[num + 2] -= 1
+            subsequences[num + 2] += 1
+        else:
+            return False
+        freq[num] -= 1
+    return True
