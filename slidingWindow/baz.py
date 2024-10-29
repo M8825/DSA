@@ -170,3 +170,17 @@ def minDominoRotations(A, B):
     if rotations != -1 or A[0] == B[0]:
         return rotations
     return check(B[0])
+
+import heapq
+
+def kthSmallest(matrix, k):
+    n = len(matrix)
+    min_heap = [(matrix[i][0], i, 0) for i in range(min(k, n))]
+    heapq.heapify(min_heap)
+
+    for _ in range(k - 1):
+        val, r, c = heapq.heappop(min_heap)
+        if c + 1 < n:
+            heapq.heappush(min_heap, (matrix[r][c + 1], r, c + 1))
+
+    return heapq.heappop(min_heap)[0]
