@@ -184,3 +184,17 @@ def kthSmallest(matrix, k):
             heapq.heappush(min_heap, (matrix[r][c + 1], r, c + 1))
 
     return heapq.heappop(min_heap)[0]
+
+
+def partitionLabels(s):
+    last = {c: i for i, c in enumerate(s)}
+    j = anchor = 0
+    result = []
+
+    for i, c in enumerate(s):
+        j = max(j, last[c])
+        if i == j:
+            result.append(i - anchor + 1)
+            anchor = i + 1
+
+    return result
