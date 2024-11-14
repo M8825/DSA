@@ -48,4 +48,10 @@ def spiralOrder(matrix: List[List[int]]) -> List[int]:
             for row in matrix[::-1]:
                 result.append(row.pop(0))
 
-    return result
+    return resul    t
+
+
+import heapq
+
+def findKthLargest(nums: List[int], k: int) -> int:
+    return heapq.nlargest(k, nums)[-1]
