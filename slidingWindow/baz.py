@@ -353,3 +353,41 @@ matrix = [[1, 5, 9], [10, 11, 13], [12, 13, 15]]
 k = 8
 print(kthSmallest(matrix, k))  # Output: 13
 
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+
+def findMaximumXOR(nums):
+    root = TrieNode()
+    max_xor = 0
+
+    for num in nums:
+        current_node = root
+        complement_node = root
+        current_xor = 0
+
+        for i in range(31, -1, -1):  # 32 bits for integers
+            bit = (num >> i) & 1
+            complement = 1 - bit
+
+            # Insert number into Trie
+            if bit not in current_node.children:
+                current_node.children[bit] = TrieNode()
+            current_node = current_node.children[bit]
+
+            # Check complement for max XOR
+            if complement in complement_node.children:
+                current_xor = (current_xor << 1) | 1
+                complement_node = complement_node.children[complement]
+            else:
+                current_xor = (current_xor << 1)
+                complement_node = complement_node.children.get(bit)
+
+        max_xor = max(max_xor, current_xor)
+
+    return max_xor
+
+# Example
+nums = [3, 10, 5, 25, 2, 8]
+print(findMaximumXOR(nums))  # Output: 28
