@@ -391,3 +391,26 @@ def findMaximumXOR(nums):
 # Example
 nums = [3, 10, 5, 25, 2, 8]
 print(findMaximumXOR(nums))  # Output: 28
+
+def lengthOfLongestSubstringKDistinct(s, k):
+    char_count = {}
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        char_count[s[right]] = char_count.get(s[right], 0) + 1
+
+        while len(char_count) > k:
+            char_count[s[left]] -= 1
+            if char_count[s[left]] == 0:
+                del char_count[s[left]]
+            left += 1
+
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+
+# Example
+s = "eceba"
+k = 2
+print(lengthOfLongestSubstringKDistinct(s, k))  # Output: 3
