@@ -414,3 +414,30 @@ def lengthOfLongestSubstringKDistinct(s, k):
 s = "eceba"
 k = 2
 print(lengthOfLongestSubstringKDistinct(s, k))  # Output: 3
+
+
+# Robot API is given
+def cleanRoom(robot):
+    directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]  # Up, Right, Down, Left
+    visited = set()
+
+    def backtrack(x, y, d):
+        robot.clean()
+        visited.add((x, y))
+
+        for i in range(4):
+            new_d = (d + i) % 4
+            nx, ny = x + directions[new_d][0], y + directions[new_d][1]
+
+            if (nx, ny) not in visited and robot.move():
+                backtrack(nx, ny, new_d)
+                # Go back to the original position
+                robot.turnRight()
+                robot.turnRight()
+                robot.move()
+                robot.turnRight()
+                robot.turnRight()
+
+            robot.turnRight()
+
+    backtrack(0, 0, 0)
