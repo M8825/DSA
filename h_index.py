@@ -21,3 +21,21 @@ def strangePrinter(s: str) -> int:
                     dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j - 1])
 
     return dp[0][n - 1]
+
+
+import heapq
+
+def minRefuelStops(target: int, startFuel: int, stations: list[list[int]]) -> int:
+    fuel = startFuel
+    heap, stops = [], 0
+    stations.append([target, 0])  # Treat target as a station
+
+    for distance, gas in stations:
+        while fuel < distance:
+            if not heap:
+                return -1
+            fuel += -heapq.heappop(heap)
+            stops += 1
+        heapq.heappush(heap, -gas)
+
+    return stops
