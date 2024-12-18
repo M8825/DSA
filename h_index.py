@@ -39,3 +39,16 @@ def minRefuelStops(target: int, startFuel: int, stations: list[list[int]]) -> in
         heapq.heappush(heap, -gas)
 
     return stops
+
+
+def findAllConcatenatedWordsInADict(words: list[str]) -> list[str]:
+    wordSet = set(words)
+
+    def canForm(word):
+        for i in range(1, len(word)):
+            prefix, suffix = word[:i], word[i:]
+            if prefix in wordSet and (suffix in wordSet or canForm(suffix)):
+                return True
+        return False
+
+    return [word for word in words if canForm(word)]
