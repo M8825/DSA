@@ -52,3 +52,24 @@ def findAllConcatenatedWordsInADict(words: list[str]) -> list[str]:
         return False
 
     return [word for word in words if canForm(word)]
+
+
+from functools import lru_cache
+
+def numMusicPlaylists(n: int, goal: int, k: int) -> int:
+    MOD = 10**9 + 7
+
+    @lru_cache(None)
+    def dp(used, length):
+        if length == goal:
+            return 1 if used == n else 0
+        if used > n:
+            return 0
+
+        res = (dp(used + 1, length + 1) * (n - used)) % MOD
+        if used > k:
+            res += (dp(used, length + 1) * (used - k)) % MOD
+
+        return res % MOD
+
+    return dp(0, 0)
