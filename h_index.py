@@ -73,3 +73,24 @@ def numMusicPlaylists(n: int, goal: int, k: int) -> int:
         return res % MOD
 
     return dp(0, 0)
+
+
+from functools import lru_cache
+
+def paintWalls(cost: list[int], time: list[int]) -> int:
+    n = len(cost)
+
+    @lru_cache(None)
+    def dp(i, freeTime):
+        if i == n:
+            return 0 if freeTime >= 0 else float('inf')
+
+        # Option 1: Hire a painter
+        hire = cost[i] + dp(i + 1, freeTime + time[i] - 1)
+
+        # Option 2: Paint for free
+        paint_free = dp(i + 1, freeTime - 1)
+
+        return min(hire, paint_free)
+
+    return dp(0, 0)
