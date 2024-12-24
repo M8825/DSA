@@ -94,3 +94,25 @@ def paintWalls(cost: list[int], time: list[int]) -> int:
         return min(hire, paint_free)
 
     return dp(0, 0)
+
+
+def minArea(image, x, y):
+    if not image or not image[0]:
+        return 0
+
+    m, n = len(image), len(image[0])
+
+    def dfs(i, j, bounds):
+        if i < 0 or i >= m or j < 0 or j >= n or image[i][j] == "0":
+            return
+        image[i][j] = "0"
+        bounds[0] = min(bounds[0], i)
+        bounds[1] = max(bounds[1], i)
+        bounds[2] = min(bounds[2], j)
+        bounds[3] = max(bounds[3], j)
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            dfs(i + dx, j + dy, bounds)
+
+    bounds = [x, x, y, y]
+    dfs(x, y, bounds)
+    return (bounds[1] - bounds[0] + 1) * (bounds[3] - bounds[2] + 1)
