@@ -201,3 +201,25 @@ def minAbbreviation(target, dictionary):
                     for i in range(n)
                 ) or str(n)
     return result
+
+
+def findAllConcatenatedWords(words):
+    word_set = set(words)
+
+    def canForm(word):
+        n = len(word)
+        dp = [False] * (n + 1)
+        dp[0] = True
+
+        for i in range(1, n + 1):
+            for j in range(i):
+                if dp[j] and word[j:i] in word_set and word[j:i] != word:
+                    dp[i] = True
+                    break
+        return dp[-1]
+
+    result = []
+    for word in words:
+        if canForm(word):
+            result.append(word)
+    return result
