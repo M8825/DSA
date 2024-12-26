@@ -134,3 +134,25 @@ def strangePrinter(s):
                 dp[i][j] -= 1
 
     return dp[0][n-1]
+
+
+def evaluate(expression):
+    def parse(expr, env):
+        if expr[0].isdigit() or expr[0] == '-':
+            return int(expr)
+        elif expr[0] != '(':
+            return env[expr]
+        elif expr.startswith("(add"):
+            _, e1, e2 = expr[5:-1].split(" ", 2)
+            return parse(e1, env) + parse(e2, env)
+        elif expr.startswith("(mult"):
+            _, e1, e2 = expr[6:-1].split(" ", 2)
+            return parse(e1, env) * parse(e2, env)
+        else:  # let expression
+            expr = expr[5:-1]
+            tokens = expr.split(" ")
+            for i in range(0, len(tokens) - 2, 2):
+                env[tokens[i]] = parse(tokens[i+1], env)
+            return parse(tokens[-1], env)
+
+    return parse(expression, {})
