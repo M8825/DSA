@@ -156,3 +156,48 @@ def evaluate(expression):
             return parse(tokens[-1], env)
 
     return parse(expression, {})
+
+
+def minAbbreviation(target, dictionary):
+    def abbrLen(mask):
+        n = len(target)
+        count, i = 0, 0
+        while i < n:
+            if mask & (1 << i):
+                count += 1
+            else:
+                while i < n and not (mask & (1 << i)):
+                    i += 1
+                count += 1
+            i += 1
+        return count
+
+    def isUnique(mask):
+        abbr = []
+        n = len(target)
+        i = 0
+        while i < n:
+            if mask & (1 << i):
+                abbr.append(target[i])
+            else:
+                j = i
+                while j < n and not (mask & (1 << j)):
+                    j += 1
+                abbr.append(str(j - i))
+                i = j - 1
+            i += 1
+        abbr = "".join(abbr)
+        return not any(all(c1 == c2 or c2.isdigit() for c1, c2 in zip(word, abbr)) for word in dictionary)
+
+    n = len(target)
+    min_length, result = n, target
+    for mask in range(1 << n):
+        if isUnique(mask):
+            length = abbrLen(mask)
+            if length < min_length:
+                min_length = length
+                result = "".join(
+                    target[i] if mask & (1 << i) else ''
+                    for i in range(n)
+                ) or str(n)
+    return result
