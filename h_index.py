@@ -257,3 +257,19 @@ def minWindow(s: str, t: str) -> str:
             left += 1
 
     return min_window
+
+def longestConsecutive(nums: list[int]) -> int:
+    if not nums:
+        return 0
+
+    num_set = set(nums)
+    longest = 0
+
+    for num in nums:
+        if num - 1 not in num_set:  # Start of sequence
+            length = 1
+            while num + length in num_set:
+                length += 1
+            longest = max(longest, length)
+
+    return longest
