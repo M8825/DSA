@@ -223,3 +223,37 @@ def findAllConcatenatedWords(words):
         if canForm(word):
             result.append(word)
     return result
+
+
+from collections import Counter, defaultdict
+
+def minWindow(s: str, t: str) -> str:
+    if not s or not t:
+        return ""
+
+    target = Counter(t)
+    window = defaultdict(int)
+
+    left = 0
+    min_length = float("inf")
+    min_window = ""
+    formed = 0
+    required = len(target)
+
+    for right, char in enumerate(s):
+        window[char] += 1
+
+        if char in target and window[char] == target[char]:
+            formed += 1
+
+        while left <= right and formed == required:
+            if right - left + 1 < min_length:
+                min_length = right - left + 1
+                min_window = s[left:right+1]
+
+            window[s[left]] -= 1
+            if s[left] in target and window[s[left]] < target[s[left]]:
+                formed -= 1
+            left += 1
+
+    return min_window
