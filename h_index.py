@@ -289,7 +289,7 @@ def ladderLength(beginWord: str, endWord: str, wordList: list[str]) -> int:
         if word == endWord:
             return steps
 
-        for i in range(len(word)):
+        for i in range(len(word)) :
             for c in 'abcdefghijklmnopqrstuvwxyz':
                 new_word = word[:i] + c + word[i+1:]
                 if new_word in wordSet:
@@ -297,3 +297,19 @@ def ladderLength(beginWord: str, endWord: str, wordList: list[str]) -> int:
                     queue.append((new_word, steps + 1))
 
     return 0
+
+
+
+def lengthOfLongestSubstring(s: str) -> int:
+    char_set = set()
+    left = 0
+    max_length = 0
+
+    for right in range(len(s)):
+        while s[right] in char_set:
+            char_set.remove(s[left])
+            left += 1
+        char_set.add(s[right])
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
